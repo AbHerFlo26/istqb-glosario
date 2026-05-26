@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banco de Preguntas ISTQB Foundation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0e0f;--bg2:#161618;--bg3:#1c1c1f;--bg4:#222226;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#e8e6e0;--muted:#7a7870;--faint:#2e2e32;
+  --purple:#b8a9f5;--purple-bg:rgba(184,169,245,0.1);--purple-dark:#3C3489;
+  --teal:#6fcfb0;--teal-bg:rgba(111,207,176,0.1);--teal-dark:#085041;
+  --coral:#f0856a;--coral-bg:rgba(240,133,106,0.1);--coral-dark:#712B13;
+  --blue:#7ab8f5;--blue-bg:rgba(122,184,245,0.1);--blue-dark:#0C447C;
+  --amber:#e8b96a;--amber-bg:rgba(232,185,106,0.1);--amber-dark:#633806;
+  --green:#7dd87a;--green-bg:rgba(125,216,122,0.1);
+  --red:#f07a7a;--red-bg:rgba(240,122,122,0.1);
+  --radius:10px;--radius-lg:14px;
+  --font-display:'Fraunces',Georgia,serif;
+  --font-mono:'DM Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font-mono);font-size:14px;line-height:1.7;min-height:100vh}
+
+header{padding:3rem 2rem 2rem;max-width:900px;margin:0 auto;border-bottom:1px solid var(--border)}
+.header-tag{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:.75rem}
+h1{font-family:var(--font-display);font-weight:300;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;color:var(--text)}
+h1 em{font-style:italic;color:var(--purple)}
+.header-sub{color:var(--muted);font-size:13px;margin-top:.6rem}
+
+.controls{max-width:900px;margin:0 auto;padding:1.25rem 2rem;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:12px}
+.search-row{display:flex;gap:10px;align-items:center}
+.search-wrap{flex:1;position:relative}
+.search-wrap svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+input[type=text]{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:9px 12px 9px 34px;color:var(--text);font-family:var(--font-mono);font-size:13px;outline:none;transition:border-color .2s}
+input[type=text]:focus{border-color:var(--purple)}
+input[type=text]::placeholder{color:var(--muted)}
+.filter-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-right:4px}
+.chip{font-size:11px;padding:4px 12px;border-radius:100px;border:1px solid var(--border);cursor:pointer;color:var(--muted);background:transparent;font-family:var(--font-mono);letter-spacing:.03em;transition:all .15s;white-space:nowrap}
+.chip:hover{border-color:var(--border2);color:var(--text)}
+.chip.active{border-color:var(--purple);color:var(--purple);background:var(--purple-bg)}
+select{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:7px 28px 7px 12px;color:var(--text);font-family:var(--font-mono);font-size:12px;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a7870' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center}
+
+main{max-width:900px;margin:0 auto;padding:1.5rem 2rem 3rem}
+
+.stats-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1.5rem}
+.stat{background:var(--bg2);border-radius:var(--radius);padding:.75rem;text-align:center;border:1px solid var(--border)}
+.stat-n{font-size:20px;font-weight:500;color:var(--text)}
+.stat-n.good{color:var(--green)}
+.stat-n.bad{color:var(--red)}
+.stat-n.info{color:var(--purple)}
+.stat-l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+
+.progress-wrap{margin-bottom:1.5rem}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:6px}
+.progress-bar{height:3px;background:var(--faint);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--purple);border-radius:2px;transition:width .4s ease}
+
+.q-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1rem}
+.q-meta{display:flex;align-items:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
+.q-num{font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.q-badge{font-size:11px;padding:3px 10px;border-radius:100px;font-weight:500;letter-spacing:.02em}
+.q-badge.artefactos{background:var(--purple-bg);color:var(--purple)}
+.q-badge.actividades{background:var(--teal-bg);color:var(--teal)}
+.q-badge.tipos{background:var(--coral-bg);color:var(--coral)}
+.q-badge.proceso{background:var(--blue-bg);color:var(--blue)}
+.q-badge.conceptos{background:var(--amber-bg);color:var(--amber)}
+.q-diff{font-size:10px;padding:3px 8px;border-radius:100px;border:1px solid var(--border)}
+.q-diff.facil{color:var(--green);border-color:rgba(125,216,122,.3)}
+.q-diff.medio{color:var(--amber);border-color:rgba(232,185,106,.3)}
+.q-diff.dificil{color:var(--red);border-color:rgba(240,122,122,.3)}
+
+.q-text{font-size:14px;color:var(--text);line-height:1.7;margin-bottom:1.25rem}
+.q-text code{background:var(--bg3);padding:2px 6px;border-radius:4px;font-size:12px;color:var(--purple)}
+
+.options{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border:1px solid var(--border);border-radius:var(--radius);cursor:pointer;font-size:13px;color:var(--text);background:var(--bg3);text-align:left;width:100%;line-height:1.55;transition:border-color .15s,background .15s;font-family:var(--font-mono)}
+.opt:hover:not(:disabled){border-color:var(--border2);background:var(--bg4)}
+.opt.correct{border-color:rgba(125,216,122,.5)!important;background:var(--green-bg)!important;color:var(--green)!important}
+.opt.wrong{border-color:rgba(240,122,122,.5)!important;background:var(--red-bg)!important;color:var(--red)!important}
+.opt.revealed{border-color:rgba(125,216,122,.4)!important;background:rgba(125,216,122,.05)!important;color:var(--green)!important;opacity:.75}
+.opt-letter{font-weight:500;flex-shrink:0;min-width:16px;opacity:.6}
+
+.explanation{margin-top:1rem;padding:12px 16px;background:var(--bg3);border-radius:var(--radius);font-size:12px;color:var(--muted);line-height:1.7;border-left:2px solid var(--faint)}
+.explanation b{color:var(--text);font-weight:500}
+.explanation .verdict{font-size:13px;margin-bottom:6px}
+.explanation .verdict.ok{color:var(--green)}
+.explanation .verdict.fail{color:var(--red)}
+
+.actions{display:flex;gap:8px;margin-top:1.5rem;flex-wrap:wrap}
+.btn{padding:9px 20px;border:1px solid var(--border2);border-radius:var(--radius);background:transparent;cursor:pointer;font-size:13px;color:var(--text);font-family:var(--font-mono);transition:all .15s;letter-spacing:.02em}
+.btn:hover{background:var(--bg2)}
+.btn.primary{background:var(--purple);color:#0e0e0f;border-color:var(--purple);font-weight:500}
+.btn.primary:hover{opacity:.88}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+
+.result-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.5rem;text-align:center}
+.result-score{font-family:var(--font-display);font-size:72px;font-weight:300;line-height:1;margin-bottom:.25rem}
+.result-score.pass{color:var(--green)}
+.result-score.fail{color:var(--red)}
+.result-verdict{font-size:14px;color:var(--muted);margin-bottom:1.5rem}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.5rem;max-width:360px;margin-left:auto;margin-right:auto}
+.result-cell{background:var(--bg3);border-radius:var(--radius);padding:.75rem}
+.result-cell-n{font-size:20px;font-weight:500}
+.result-cell-l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.result-msg{font-size:13px;color:var(--muted);max-width:400px;margin:0 auto 1.5rem;line-height:1.7}
+.breakdown{max-width:500px;margin:0 auto 1.5rem;text-align:left}
+.breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--faint);font-size:12px}
+.breakdown-cat{color:var(--muted)}
+.breakdown-score{font-weight:500}
+
+footer{max-width:900px;margin:0 auto;padding:1.5rem 2rem;border-top:1px solid var(--border);color:var(--muted);font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;letter-spacing:.04em}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--faint);border-radius:3px}
+
+@media(max-width:600px){
+  header,.controls,main,footer{padding-left:1.25rem;padding-right:1.25rem}
+  .stats-row{grid-template-columns:repeat(3,1fr)}
+  .result-grid{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <p class="header-tag">ISTQB Foundation Level · Simulador de Examen</p>
+  <h1>Banco de <em>Preguntas</em></h1>
+  <p class="header-sub">40 preguntas situacionales · Estilo examen oficial · Categorías y dificultad</p>
+</header>
+
+<div class="controls">
+  <div class="search-row">
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="searchInput" placeholder="Buscar en enunciados…" oninput="applyFilters()">
+    </div>
+    <select id="modeSelect" onchange="applyFilters()">
+      <option value="random">Orden aleatorio</option>
+      <option value="seq">Orden secuencial</option>
+      <option value="wrong">Solo incorrectas</option>
+    </select>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Categoría:</span>
+    <div id="catFilters"></div>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Dificultad:</span>
+    <div id="diffFilters"></div>
+  </div>
+</div>
+
+<main>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n info" id="sVistas">0</div><div class="stat-l">Vistas</div></div>
+    <div class="stat"><div class="stat-n good" id="sCorrectas">0</div><div class="stat-l">Correctas</div></div>
+    <div class="stat"><div class="stat-n bad" id="sIncorrectas">0</div><div class="stat-l">Incorrectas</div></div>
+    <div class="stat"><div class="stat-n" id="sPendientes">0</div><div class="stat-l">Pendientes</div></div>
+    <div class="stat"><div class="stat-n" id="sPct">—</div><div class="stat-l">% Acierto</div></div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label"><span id="progText">0 de 0 preguntas completadas</span><span id="progPct">0%</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  </div>
+  <div id="qArea"></div>
+  <div class="actions">
+    <button class="btn primary" id="btnNext" onclick="nextQ()">Siguiente →</button>
+    <button class="btn" onclick="resetSession()">Reiniciar sesión</button>
+    <button class="btn" onclick="resetAll()">Reiniciar todo</button>
+  </div>
+</main>
+
+<footer>
+  <span>ISTQB Foundation Level — Banco de práctica personal</span>
+  <span id="footerDate"></span>
+</footer>
+
+<script>
+const CATS = {artefactos:"Artefactos",actividades:"Actividades",tipos:"Tipos/Niveles",proceso:"Proceso",conceptos:"Conceptos"};
+const DIFFS = {facil:"Fácil",medio:"Medio",dificil:"Difícil"};
+
+const ALL_Q = [
+  // ── CONCEPTOS FUNDAMENTALES ──────────────────────────────────────────────
+  {id:1,cat:"conceptos",diff:"facil",
+   q:"Un tester ejecuta un caso de prueba y obtiene un resultado diferente al esperado. ¿Cuál es el término ISTQB correcto para este comportamiento observable del sistema?",
+   opts:["Error","Defecto","Fallo","Bug"],ans:2,
+   exp:"<b>Fallo</b> es el comportamiento observable del componente o sistema que no se ajusta al esperado. El error es la acción humana, el defecto es la imperfección en el artefacto, y el fallo es lo que el usuario final experimenta."},
+  {id:2,cat:"conceptos",diff:"medio",
+   q:"Ana, programadora, confunde los operadores <code>></code> y <code>>=</code> al escribir una condición de validación de edad. Esto provoca que usuarios de exactamente 18 años sean rechazados incorrectamente. ¿Cómo clasifica ISTQB la acción de Ana?",
+   opts:["Fallo","Defecto","Error","Incidente"],ans:2,
+   exp:"La acción humana que produce un resultado incorrecto se denomina <b>error</b>. Este error genera un defecto en el código (la condición mal escrita), que a su vez causa un fallo cuando el sistema se ejecuta con la entrada crítica."},
+  {id:3,cat:"conceptos",diff:"medio",
+   q:"El módulo de facturación calcula mal el impuesto cuando el cliente tiene más de 5 productos en el carrito. El código está en producción pero el error aún no se ha manifestado ante ningún usuario. ¿Cómo se denomina esta situación según ISTQB?",
+   opts:["Fallo latente","Error","Defecto","Riesgo de producto"],ans:2,
+   exp:"Existe un <b>defecto</b> en el código aunque no haya causado un fallo visible aún. Un defecto puede existir sin nunca manifestarse si la condición que lo activa nunca ocurre durante el uso normal."},
+  {id:4,cat:"conceptos",diff:"dificil",
+   q:"El equipo de QA detecta que el sistema de pagos podría procesar transacciones duplicadas bajo alta carga concurrente. Esta situación aún no ha ocurrido en producción. ¿Cómo clasifica ISTQB este hallazgo?",
+   opts:["Fallo","Defecto","Riesgo de producto","Error de entorno"],ans:2,
+   exp:"Un <b>riesgo de producto</b> es la posibilidad de que el sistema no satisfaga los requisitos legítimos de los stakeholders. El equipo identificó que algo podría fallar, pero la condición exacta es un riesgo hasta que se confirme como defecto."},
+  {id:5,cat:"conceptos",diff:"dificil",
+   q:"El mismo defecto en el módulo de cálculo de impuestos está presente en el código, pero durante todas las pruebas el sistema funcionó correctamente. ¿Por qué es esto posible según ISTQB?",
+   opts:["Porque el defecto fue corregido automáticamente","Porque los datos de prueba no activaron la condición que expone el defecto","Porque la prueba de regresión eliminó el defecto","Porque el entorno de prueba enmascara los defectos"],ans:1,
+   exp:"No todo defecto produce un fallo observable. El fallo solo ocurre cuando la ejecución del software con ciertos datos o condiciones específicas activa la ruta de código defectuosa. Si los datos de prueba nunca ejercen esa ruta, el defecto permanece oculto."},
+  {id:6,cat:"conceptos",diff:"facil",
+   q:"El equipo prioriza las pruebas del módulo de pagos por encima del módulo de reportes, argumentando que un fallo en pagos causaría pérdidas económicas directas. ¿Qué enfoque de prueba describe esto?",
+   opts:["Prueba exploratoria","Prueba basada en riesgo","Prueba de regresión","Prueba de aceptación"],ans:1,
+   exp:"La <b>prueba basada en riesgo</b> prioriza el esfuerzo de prueba según la probabilidad e impacto de los riesgos de producto. Más recursos donde el riesgo combinado (probabilidad × impacto) es mayor."},
+
+  // ── ACTIVIDADES DE PRUEBA ───────────────────────────────────────────────
+  {id:7,cat:"actividades",diff:"facil",
+   q:"El bug #512 ('el botón de pago no responde en Safari') fue corregido por el desarrollador. ¿Qué tipo de prueba debe ejecutar el QA a continuación?",
+   opts:["Prueba de regresión","Prueba de humo","Prueba de confirmación","Prueba de sistema"],ans:2,
+   exp:"La <b>prueba de confirmación</b> (re-testing) verifica específicamente que el defecto reportado fue corregido. Se ejecuta exactamente el mismo escenario que produjo el fallo original."},
+  {id:8,cat:"actividades",diff:"facil",
+   q:"Tras corregir el bug del botón de pago en Safari, el equipo ejecuta adicionalmente los casos de prueba del carrito de compras, el registro de usuarios y las notificaciones. ¿Qué tipo de prueba realizan ahora?",
+   opts:["Prueba de confirmación","Prueba de humo","Prueba de regresión","Prueba exploratoria"],ans:2,
+   exp:"La <b>prueba de regresión</b> verifica que los cambios realizados no han introducido defectos en áreas del sistema que previamente funcionaban correctamente. Complementa a la prueba de confirmación."},
+  {id:9,cat:"actividades",diff:"medio",
+   q:"A las 8am se entrega una nueva compilación. El equipo debe decidir si vale la pena dedicar el día completo a pruebas sobre esta versión. ¿Qué tipo de prueba ejecutan primero para tomar esa decisión?",
+   opts:["Prueba de aceptación","Prueba de integración","Prueba de humo","Prueba de sistema"],ans:2,
+   exp:"La <b>prueba de humo</b> es el 'portero' del ciclo de pruebas. Ejecuta un conjunto mínimo sobre las funciones más críticas. Si falla, la compilación se rechaza sin invertir más recursos."},
+  {id:10,cat:"actividades",diff:"medio",
+   q:"Un desarrollador senior de QA navega libremente por el sistema recién entregado, sin un guión predefinido, explorando áreas que considera riesgosas basándose en su experiencia. ¿Qué técnica aplica?",
+   opts:["Prueba de cordura","Prueba basada en especificación","Prueba exploratoria","Prueba de regresión"],ans:2,
+   exp:"La <b>prueba exploratoria</b> combina simultáneamente el diseño, ejecución y aprendizaje. El tester usa su conocimiento y juicio para investigar el sistema, lo que la hace muy efectiva para descubrir defectos inesperados."},
+  {id:11,cat:"actividades",diff:"medio",
+   q:"Se recibe un parche urgente que solo corrige el cálculo del descuento para clientes VIP. El equipo dispone de 30 minutos. ¿Qué tipo de prueba es más apropiada?",
+   opts:["Prueba de sistema completa","Prueba de regresión completa","Prueba de cordura","Prueba de aceptación"],ans:2,
+   exp:"La <b>prueba de cordura</b> es una revisión rápida y superficial de la funcionalidad específica afectada por el cambio. Es apropiada cuando el alcance del cambio es pequeño y el tiempo es limitado."},
+  {id:12,cat:"actividades",diff:"dificil",
+   q:"¿Cuál es la diferencia principal entre una prueba de humo y una prueba de cordura en el contexto ISTQB?",
+   opts:["La prueba de humo cubre todo el sistema; la de cordura solo una funcionalidad específica","La prueba de cordura es más extensa que la de humo","La prueba de humo la ejecutan los desarrolladores; la de cordura el equipo de QA","No hay diferencia, son sinónimos en ISTQB"],ans:0,
+   exp:"La <b>prueba de humo</b> verifica que las funciones más críticas del sistema en general funcionan (es más amplia pero superficial). La <b>prueba de cordura</b> verifica una funcionalidad específica o corrección puntual (más enfocada, también superficial)."},
+  {id:13,cat:"actividades",diff:"dificil",
+   q:"El equipo implementa un pipeline de CI/CD que ejecuta automáticamente un conjunto de pruebas después de cada commit. El objetivo es detectar si los nuevos cambios rompen funcionalidades existentes. ¿Qué tipo de prueba automatizada priorizan?",
+   opts:["Pruebas de aceptación","Pruebas exploratorias","Pruebas de regresión","Pruebas de cordura"],ans:2,
+   exp:"La <b>prueba de regresión</b> es la más adecuada para automatización en CI/CD. Su objetivo de detectar que cambios nuevos no afecten funcionalidad existente la convierte en el candidato ideal para ejecución automática tras cada cambio."},
+
+  // ── ARTEFACTOS DE PRUEBA ────────────────────────────────────────────────
+  {id:14,cat:"artefactos",diff:"facil",
+   q:"El equipo revisa los requisitos funcionales, las historias de usuario y el diagrama de flujo del proceso para identificar qué aspectos del sistema deben probarse. ¿Cómo se denomina colectivamente esta documentación?",
+   opts:["Plan de prueba","Suite de prueba","Base de prueba","Oráculo de prueba"],ans:2,
+   exp:"La <b>base de prueba</b> es toda la documentación fuente usada para identificar las condiciones de prueba. Puede incluir requisitos, especificaciones, modelos de datos, código fuente y cualquier otro artefacto del que se deriven las pruebas."},
+  {id:15,cat:"artefactos",diff:"facil",
+   q:"Para determinar si el resultado de una prueba es correcto, el tester compara la salida del sistema contra los valores calculados manualmente con la fórmula de negocio. ¿Qué rol juegan esos valores calculados?",
+   opts:["Base de prueba","Datos de prueba","Oráculo de prueba","Criterio de salida"],ans:2,
+   exp:"El <b>oráculo de prueba</b> es la fuente que provee el resultado esperado para compararlo con el resultado real. Puede ser una especificación, cálculo manual, sistema de referencia o juicio de un experto de dominio."},
+  {id:16,cat:"artefactos",diff:"medio",
+   q:"Antes de diseñar los casos de prueba para el módulo de facturación, el equipo documenta 'el sistema debe calcular correctamente el IVA para clientes nacionales e internacionales'. ¿Qué tipo de artefacto producen?",
+   opts:["Caso de prueba","Suite de prueba","Condición de prueba","Plan de prueba"],ans:2,
+   exp:"Las <b>condiciones de prueba</b> son los aspectos del sistema que deben verificarse. Son más abstractas que los casos de prueba; a partir de una condición ('calcular IVA correctamente') se derivarán múltiples casos específicos."},
+  {id:17,cat:"artefactos",diff:"medio",
+   q:"Un caso de prueba especifica: Precondición: usuario autenticado. Entrada: carrito con 3 productos. Acción: clic en 'Comprar'. Resultado esperado: redirección a confirmación. ¿Qué componente esencial falta en esta definición?",
+   opts:["El oráculo de prueba","La postcondición","Los datos de prueba","La condición de prueba"],ans:1,
+   exp:"Un caso de prueba completo incluye precondiciones, entradas, acciones, resultado esperado y <b>postcondiciones</b> (el estado del sistema después de la ejecución). Las postcondiciones son parte de la definición ISTQB de caso de prueba."},
+  {id:18,cat:"artefactos",diff:"medio",
+   q:"Los requisitos del sistema cambian para incluir un nuevo tipo de cliente: 'cliente corporativo'. ¿Qué debe hacer el equipo de pruebas según las buenas prácticas ISTQB?",
+   opts:["Esperar al siguiente ciclo de pruebas","Actualizar la base de prueba y revisar las condiciones y casos de prueba afectados","Solo agregar casos de prueba nuevos sin modificar los existentes","Ejecutar la suite completa sin cambios"],ans:1,
+   exp:"Cuando la <b>base de prueba</b> cambia, los artefactos derivados de ella (condiciones, casos, datos de prueba) deben revisarse y actualizarse. Un cambio en requisitos invalida potencialmente pruebas existentes y requiere nuevas pruebas."},
+  {id:19,cat:"artefactos",diff:"dificil",
+   q:"El equipo agrupa todos los casos de prueba del módulo de pagos en una colección para ejecutarlos juntos en cada ciclo de regresión. ¿Cómo denomina ISTQB a esta colección?",
+   opts:["Base de prueba","Condición de prueba","Suite de prueba","Plan de prueba"],ans:2,
+   exp:"Una <b>suite de prueba</b> (o conjunto de pruebas) es una colección de casos de prueba agrupados típicamente por módulo, funcionalidad o nivel de prueba. Facilita la ejecución organizada y la automatización de regresión."},
+  {id:20,cat:"artefactos",diff:"dificil",
+   q:"La base de prueba de un proyecto está compuesta únicamente por conversaciones informales con el cliente, ya que no existe documentación escrita. ¿Es válida esta situación según ISTQB?",
+   opts:["No, la base de prueba debe ser siempre documentación formal","Sí, la base de prueba puede ser informal, incluyendo conocimiento de expertos","No, sin documentación formal no se pueden crear casos de prueba","Sí, pero solo para pruebas exploratorias"],ans:1,
+   exp:"Según ISTQB, la base de prueba puede ser tanto formal (documentos de requisitos, especificaciones) como informal (conocimiento de expertos, conversaciones con stakeholders). Lo importante es que sirva como fuente para identificar condiciones de prueba."},
+
+  // ── TIPOS Y NIVELES DE PRUEBA ───────────────────────────────────────────
+  {id:21,cat:"tipos",diff:"facil",
+   q:"Un desarrollador prueba de forma aislada la función <code>calcularDescuento()</code>, usando valores de entrada directos sin invocar la base de datos real. ¿Qué nivel de prueba aplica?",
+   opts:["Prueba de integración","Prueba de sistema","Prueba de componente","Prueba de aceptación"],ans:2,
+   exp:"La <b>prueba de componente</b> (o unit testing) prueba módulos individuales en aislamiento. El uso de valores directos en lugar de la BD real es característico del aislamiento que define este nivel."},
+  {id:22,cat:"tipos",diff:"facil",
+   q:"El sistema de e-commerce está completamente integrado y el equipo de QA ejecuta flujos de negocio completos: búsqueda → carrito → pago → confirmación de email. ¿En qué nivel trabajan?",
+   opts:["Prueba de integración","Prueba de componente","Prueba de sistema","Prueba de aceptación"],ans:2,
+   exp:"La <b>prueba de sistema</b> valida el sistema completo e integrado contra sus requisitos funcionales y no funcionales. Los flujos de extremo a extremo son característicos de este nivel."},
+  {id:23,cat:"tipos",diff:"medio",
+   q:"El módulo de carrito se comunica por primera vez con el módulo de inventario. El equipo verifica que la consulta de stock disponible funciona correctamente entre ambos módulos. ¿Qué nivel de prueba realizan?",
+   opts:["Prueba de componente","Prueba de integración de componentes","Prueba de sistema","Prueba de aceptación"],ans:1,
+   exp:"La <b>prueba de integración de componentes</b> verifica las interacciones entre módulos del sistema. Se enfoca en las interfaces y el flujo de datos entre componentes, no en el comportamiento individual de cada uno."},
+  {id:24,cat:"tipos",diff:"medio",
+   q:"Se mide el tiempo de respuesta del sistema cuando 500 usuarios acceden simultáneamente. ¿Qué tipo de prueba es?",
+   opts:["Prueba funcional","Prueba de sistema","Prueba no funcional de rendimiento","Prueba de integración"],ans:2,
+   exp:"La <b>prueba no funcional</b> evalúa características como rendimiento, seguridad, usabilidad y portabilidad. La prueba de carga/rendimiento (500 usuarios simultáneos) es un subtipo de prueba no funcional."},
+  {id:25,cat:"tipos",diff:"medio",
+   q:"Los representantes del cliente ejecutan escenarios de negocio reales en el sistema y firman un documento de aceptación formal. ¿Qué nivel de prueba describe esto?",
+   opts:["Prueba de sistema","Prueba de integración","Prueba de aceptación del usuario","Prueba funcional"],ans:2,
+   exp:"La <b>prueba de aceptación del usuario</b> (UAT) es realizada por los usuarios o clientes finales para validar que el sistema cumple los criterios de aceptación acordados antes de la entrega o puesta en producción."},
+  {id:26,cat:"tipos",diff:"dificil",
+   q:"¿Cuál es la diferencia principal entre la prueba de sistema y la prueba de aceptación según ISTQB?",
+   opts:["La prueba de sistema la realiza QA independiente verificando requisitos; la de aceptación la realizan los stakeholders decidiendo si aceptan el producto","La prueba de aceptación es técnicamente más rigurosa","No hay diferencia, son el mismo nivel con distinto nombre","La prueba de sistema solo prueba funcionalidad; la de aceptación solo rendimiento"],ans:0,
+   exp:"La <b>prueba de sistema</b> la ejecuta QA independiente y verifica que el sistema cumple los requisitos especificados. La <b>prueba de aceptación</b> la realizan los stakeholders o usuarios finales y su objetivo es decidir si el sistema es aceptable para la entrega."},
+  {id:27,cat:"tipos",diff:"dificil",
+   q:"Un sistema de pago procesa una transacción correctamente pero tarda 8 segundos en confirmarla. Los requisitos especifican máximo 2 segundos. ¿Qué tipo de prueba detecta este problema?",
+   opts:["Prueba funcional","Prueba de componente","Prueba no funcional","Prueba de integración"],ans:2,
+   exp:"La <b>prueba no funcional</b> evalúa características como el rendimiento. Aunque el sistema funciona correctamente (lo cual verificaría la prueba funcional), el incumplimiento del tiempo de respuesta es un problema no funcional."},
+
+  // ── PROCESO DE PRUEBA ───────────────────────────────────────────────────
+  {id:28,cat:"proceso",diff:"facil",
+   q:"El equipo acuerda no iniciar pruebas hasta que: el ambiente esté disponible, el código esté en el repositorio y el smoke test automático haya pasado. ¿Qué han definido?",
+   opts:["Criterio de salida","Plan de prueba","Criterio de entrada","Estrategia de prueba"],ans:2,
+   exp:"Los <b>criterios de entrada</b> son las condiciones previas que deben cumplirse antes de iniciar una actividad de prueba. Garantizan que las condiciones mínimas están dadas para que el proceso sea efectivo."},
+  {id:29,cat:"proceso",diff:"facil",
+   q:"Las pruebas se declaran terminadas cuando: el 95% de los casos están ejecutados, todos los defectos críticos están cerrados y el índice de defectos nuevos en las últimas 48h es cero. ¿Qué han definido?",
+   opts:["Criterio de entrada","Cobertura de prueba","Criterio de salida","Plan de prueba"],ans:2,
+   exp:"Los <b>criterios de salida</b> (o criterios de finalización) definen cuándo una actividad de prueba puede considerarse completada. Sin ellos, el equipo no tiene una señal clara de cuándo parar."},
+  {id:30,cat:"proceso",diff:"medio",
+   q:"El gerente de proyecto pregunta qué requisitos están cubiertos por las pruebas existentes y cuáles no tienen ningún caso de prueba asociado. ¿Qué concepto ISTQB permite responder esta pregunta?",
+   opts:["Cobertura de prueba","Trazabilidad","Plan de prueba","Base de prueba"],ans:1,
+   exp:"La <b>trazabilidad</b> relaciona los artefactos de prueba (casos, resultados) con los requisitos, riesgos y elementos de diseño. Permite responder '¿qué requisitos están cubiertos?' y evaluar el impacto de cambios."},
+  {id:31,cat:"proceso",diff:"medio",
+   q:"Se ejecutaron 180 de 200 casos de prueba planificados sobre los requisitos funcionales. ¿Qué concepto ISTQB describe el 90% resultante?",
+   opts:["Criterio de salida","Trazabilidad","Cobertura de prueba","Eficiencia de prueba"],ans:2,
+   exp:"La <b>cobertura de prueba</b> mide el grado en que los casos ejecutados cubren la base de prueba o el código. En este caso se mide cobertura de requisitos: 180/200 = 90%."},
+  {id:32,cat:"proceso",diff:"medio",
+   q:"El plan de prueba especifica que se usará la técnica de partición de equivalencia y análisis de valores límite para diseñar los casos. También define el orden de ejecución por prioridad de riesgo. ¿Qué sección del plan de prueba describe esto?",
+   opts:["Criterios de entrada","Estrategia de prueba","Criterios de salida","Gestión de defectos"],ans:1,
+   exp:"La <b>estrategia de prueba</b> dentro del plan de prueba describe el enfoque general: técnicas de diseño de prueba, criterios de priorización, niveles de prueba, herramientas y métricas a utilizar."},
+  {id:33,cat:"proceso",diff:"dificil",
+   q:"Un tester documenta: pasos para reproducir, resultado actual vs. esperado, versión del sistema, entorno, severidad y prioridad. ¿Qué artefacto de proceso produce?",
+   opts:["Caso de prueba","Plan de prueba","Informe de defecto","Criterio de salida"],ans:2,
+   exp:"El <b>informe de defecto</b> (bug report) es el artefacto que documenta la ocurrencia, naturaleza e impacto de un defecto. Un buen informe incluye todos esos elementos para que el defecto pueda reproducirse y corregirse."},
+  {id:34,cat:"proceso",diff:"dificil",
+   q:"El equipo de QA reporta que las pruebas están al 85% de casos ejecutados pero los criterios de salida requieren 95%. Sin embargo, la fecha de lanzamiento es en 2 días. ¿Qué debe suceder según las buenas prácticas ISTQB?",
+   opts:["Lanzar el producto ya que el 85% es suficiente","Tomar una decisión informada de riesgo con los stakeholders, documentando los riesgos de lanzar sin completar las pruebas","Cancelar el lanzamiento automáticamente","Ignorar los criterios de salida ya que son solo guías"],ans:1,
+   exp:"Los criterios de salida son objetivos, pero en la práctica pueden negociarse con los stakeholders. Lo esencial es que la decisión sea <b>informada</b>: los stakeholders deben conocer y aceptar explícitamente los riesgos de lanzar sin cumplir los criterios definidos."},
+
+  // ── PREGUNTAS MIXTAS / ANÁLISIS ─────────────────────────────────────────
+  {id:35,cat:"conceptos",diff:"dificil",
+   q:"¿Cuál de las siguientes afirmaciones sobre las pruebas exhaustivas es correcta según ISTQB?",
+   opts:["Son posibles si se automatiza todo","Son posibles solo para sistemas pequeños","Son generalmente imposibles excepto en casos triviales, por lo que se usan técnicas de priorización","Son el estándar mínimo para sistemas críticos"],ans:2,
+   exp:"ISTQB establece que las <b>pruebas exhaustivas son imposibles</b> en general (probar todas las combinaciones posibles de entradas, precondiciones y secuencias es computacionalmente inviable). Por esto se usan técnicas como análisis de riesgo, partición de equivalencia y valores límite para priorizar."},
+  {id:36,cat:"actividades",diff:"dificil",
+   q:"El equipo detecta más defectos en el módulo de reportes (30 defectos) que en el módulo de pagos (5 defectos). El gerente concluye que el módulo de pagos es más confiable. ¿Qué principio ISTQB cuestiona esta conclusión?",
+   opts:["Las pruebas muestran presencia de defectos, no su ausencia","Los defectos se agrupan en módulos específicos","El efecto del pesticida afecta la detección","Las pruebas dependen del contexto"],ans:0,
+   exp:"El principio '<b>las pruebas muestran la presencia de defectos, no su ausencia</b>' implica que encontrar pocos defectos no significa que no existan más. Quizás el módulo de pagos fue menos probado o sus defectos son más difíciles de detectar."},
+  {id:37,cat:"tipos",diff:"dificil",
+   q:"Después de varios ciclos de regresión con los mismos casos de prueba, el equipo deja de encontrar defectos nuevos. Sin embargo, el sistema sigue teniendo defectos conocidos. ¿Qué principio ISTQB explica esto?",
+   opts:["Las pruebas dependen del contexto","Los defectos se agrupan","El efecto del pesticida","La ausencia de errores es una falacia"],ans:2,
+   exp:"El <b>efecto pesticida</b> establece que si las mismas pruebas se repiten constantemente, eventualmente dejarán de encontrar nuevos defectos. La solución es revisar y actualizar regularmente los casos de prueba, y usar técnicas como la prueba exploratoria para complementar."},
+  {id:38,cat:"proceso",diff:"dificil",
+   q:"Un proyecto de software médico crítico invierte el 40% del presupuesto en pruebas. Un proyecto de app de recetas de cocina invierte el 5%. ¿Qué principio ISTQB justifica esta diferencia?",
+   opts:["El efecto del pesticida","Las pruebas dependen del contexto","Los defectos se agrupan","Las pruebas exhaustivas son imposibles"],ans:1,
+   exp:"El principio '<b>las pruebas dependen del contexto</b>' establece que la cantidad y tipo de pruebas varía según el dominio, riesgos y criticidad del sistema. Un software médico requiere un nivel de rigor muy distinto al de una app de cocina."},
+  {id:39,cat:"actividades",diff:"medio",
+   q:"El sistema de e-commerce funciona perfectamente en pruebas, pero en producción falla esporádicamente en horas pico. ¿Cuál es la causa más probable según ISTQB?",
+   opts:["El efecto del pesticida","Las pruebas no simularon adecuadamente las condiciones de producción (carga, concurrencia, datos reales)","Los criterios de salida fueron insuficientes","La base de prueba estaba incompleta"],ans:1,
+   exp:"El <b>entorno de prueba</b> debe reflejar el entorno de producción lo más fielmente posible. Si las pruebas no reprodujeron la carga real, la concurrencia o el volumen de datos de producción, defectos dependientes de esas condiciones no serán detectados."},
+  {id:40,cat:"conceptos",diff:"medio",
+   q:"El gerente afirma: 'Si probamos suficiente, podemos garantizar que el sistema no tiene defectos.' ¿Qué principio ISTQB refuta directamente esta afirmación?",
+   opts:["El efecto del pesticida","La agrupación de defectos","La ausencia de errores es una falacia y las pruebas muestran presencia, no ausencia de defectos","Las pruebas dependen del contexto"],ans:2,
+   exp:"Dos principios ISTQB refutan esto: '<b>las pruebas muestran la presencia de defectos, no su ausencia</b>' (nunca se puede probar que no hay defectos) y '<b>la ausencia de errores es una falacia</b>' (encontrar y corregir defectos no garantiza que el sistema satisfaga las necesidades del usuario)."},
+];
+
+let catFilter = "Todos";
+let diffFilter = "Todos";
+let modeVal = "random";
+let searchVal = "";
+let results = {};
+let sessionSeen = new Set();
+let sessionWrong = [];
+let answered = false;
+let currentQ = null;
+let workingPool = [];
+
+function getFiltered(){
+  let pool = ALL_Q.filter(q => {
+    const matchCat = catFilter === "Todos" || q.cat === catFilter;
+    const matchDiff = diffFilter === "Todos" || q.diff === diffFilter;
+    const matchSearch = !searchVal || q.q.toLowerCase().includes(searchVal);
+    return matchCat && matchDiff && matchSearch;
+  });
+  if(modeVal === "wrong") pool = pool.filter(q => results[q.id] === false);
+  return pool;
+}
+
+function buildCatFilters(){
+  const el = document.getElementById("catFilters");
+  const cats = ["Todos", ...Object.keys(CATS)];
+  el.innerHTML = cats.map(c =>
+    `<button class="chip ${c===catFilter?'active':''}" onclick="setCat('${c}')">${c==="Todos"?"Todas":CATS[c]}</button>`
+  ).join("");
+}
+
+function buildDiffFilters(){
+  const el = document.getElementById("diffFilters");
+  const diffs = ["Todos", ...Object.keys(DIFFS)];
+  el.innerHTML = diffs.map(d =>
+    `<button class="chip ${d===diffFilter?'active':''}" onclick="setDiff('${d}')">${d==="Todos"?"Todas":DIFFS[d]}</button>`
+  ).join("");
+}
+
+function setCat(c){ catFilter=c; buildCatFilters(); applyFilters(); }
+function setDiff(d){ diffFilter=d; buildDiffFilters(); applyFilters(); }
+
+function applyFilters(){
+  modeVal = document.getElementById("modeSelect").value;
+  searchVal = document.getElementById("searchInput").value.toLowerCase().trim();
+  sessionSeen = new Set();
+  workingPool = getFiltered();
+  nextQ();
+}
+
+function updateStats(){
+  const total = Object.keys(results).length;
+  const correct = Object.values(results).filter(v=>v===true).length;
+  const wrong = Object.values(results).filter(v=>v===false).length;
+  const pool = getFiltered();
+  const done = pool.filter(q => results[q.id] !== undefined).length;
+
+  document.getElementById("sVistas").textContent = sessionSeen.size;
+  document.getElementById("sCorrectas").textContent = correct;
+  document.getElementById("sIncorrectas").textContent = wrong;
+  document.getElementById("sPendientes").textContent = Math.max(0, pool.length - done);
+  document.getElementById("sPct").textContent = total > 0 ? Math.round(correct/total*100)+"%" : "—";
+
+  const pct = pool.length > 0 ? Math.min(100, Math.round(done/pool.length*100)) : 0;
+  document.getElementById("progressFill").style.width = pct+"%";
+  document.getElementById("progText").textContent = `${done} de ${pool.length} preguntas completadas`;
+  document.getElementById("progPct").textContent = pct+"%";
+}
+
+function nextQ(){
+  answered = false;
+  workingPool = getFiltered();
+  const unseen = workingPool.filter(q => !sessionSeen.has(q.id));
+
+  if(!unseen.length){
+    showResult(); return;
+  }
+
+  let pick;
+  if(modeVal === "seq"){
+    pick = unseen[0];
+  } else {
+    pick = unseen[Math.floor(Math.random()*unseen.length)];
+  }
+
+  currentQ = pick;
+  sessionSeen.add(pick.id);
+  renderQ();
+  updateStats();
+}
+
+function renderQ(){
+  const q = currentQ;
+  const letters = ["A","B","C","D"];
+  const diffLabel = DIFFS[q.diff];
+  const prevResult = results[q.id];
+  const prevAnswered = prevResult !== undefined;
+
+  let optsHTML = q.opts.map((o,i) => {
+    let cls = "";
+    if(prevAnswered){
+      if(i === q.ans) cls = "correct";
+      else if(prevResult === false && i !== q.ans) cls = "";
+    }
+    return `<button class="opt${cls?' '+cls:''}" id="opt${i}" onclick="pick(${i})" ${prevAnswered?"disabled":""}><span class="opt-letter">${letters[i]}</span>${o}</button>`;
+  }).join("");
+
+  let expHTML = "";
+  if(prevAnswered){
+    const verdict = prevResult ? "Correcto" : "Incorrecto";
+    const vcls = prevResult ? "ok" : "fail";
+    expHTML = `<div class="explanation"><div class="verdict ${vcls}">${verdict}</div>${q.exp}</div>`;
+  }
+
+  document.getElementById("qArea").innerHTML = `
+    <div class="q-card">
+      <div class="q-meta">
+        <span class="q-num">Pregunta ${q.id} / ${ALL_Q.length}</span>
+        <span class="q-badge ${q.cat}">${CATS[q.cat]}</span>
+        <span class="q-diff ${q.diff}">${diffLabel}</span>
+      </div>
+      <p class="q-text">${q.q}</p>
+      <div class="options">${optsHTML}</div>
+      ${expHTML}
+    </div>`;
+}
+
+function pick(i){
+  if(answered) return;
+  answered = true;
+  const q = currentQ;
+  const letters = ["A","B","C","D"];
+  const isCorrect = i === q.ans;
+  results[q.id] = isCorrect;
+
+  document.querySelectorAll(".opt").forEach(b => b.disabled = true);
+  document.getElementById("opt"+i).classList.add(isCorrect ? "correct" : "wrong");
+  if(!isCorrect) document.getElementById("opt"+q.ans).classList.add("revealed");
+
+  const verdict = isCorrect ? "Correcto" : "Incorrecto";
+  const vcls = isCorrect ? "ok" : "fail";
+  const existing = document.querySelector(".explanation");
+  if(!existing){
+    const exp = document.createElement("div");
+    exp.className = "explanation";
+    exp.innerHTML = `<div class="verdict ${vcls}">${verdict}</div>${q.exp}`;
+    document.querySelector(".q-card").appendChild(exp);
+  }
+  updateStats();
+}
+
+function showResult(){
+  const pool = getFiltered();
+  const done = pool.filter(q => results[q.id] !== undefined);
+  const correct = done.filter(q => results[q.id] === true).length;
+  const pct = done.length > 0 ? Math.round(correct/done.length*100) : 0;
+  const pass = pct >= 70;
+  const msg = pass
+    ? `Superaste el umbral de aprobación ISTQB (70%). ${pct >= 85 ? 'Excelente dominio del material.' : 'Buen resultado, sigue practicando para consolidar.'}`
+    : `Estás por debajo del 70% requerido. Repasa las categorías donde más fallaste y practica con el filtro "Solo incorrectas".`;
+
+  const catStats = Object.keys(CATS).map(cat => {
+    const catQ = pool.filter(q=>q.cat===cat && results[q.id]!==undefined);
+    if(!catQ.length) return null;
+    const c = catQ.filter(q=>results[q.id]===true).length;
+    const pct2 = Math.round(c/catQ.length*100);
+    return `<div class="breakdown-row"><span class="breakdown-cat">${CATS[cat]}</span><span class="breakdown-score" style="color:${pct2>=70?'var(--green)':'var(--red)'}">${c}/${catQ.length} (${pct2}%)</span></div>`;
+  }).filter(Boolean).join("");
+
+  document.getElementById("qArea").innerHTML = `
+    <div class="result-card">
+      <div class="result-score ${pass?'pass':'fail'}">${pct}%</div>
+      <div class="result-verdict">${correct} correctas de ${done.length} respondidas · ${pass?'APROBADO':'POR MEJORAR'}</div>
+      <div class="result-grid">
+        <div class="result-cell"><div class="result-cell-n" style="color:var(--green)">${correct}</div><div class="result-cell-l">Correctas</div></div>
+        <div class="result-cell"><div class="result-cell-n" style="color:var(--red)">${done.length-correct}</div><div class="result-cell-l">Incorrectas</div></div>
+        <div class="result-cell"><div class="result-cell-n">${pct}%</div><div class="result-cell-l">Puntaje</div></div>
+      </div>
+      ${catStats ? `<div class="breakdown">${catStats}</div>` : ""}
+      <p class="result-msg">${msg}</p>
+    </div>`;
+}
+
+function resetSession(){
+  sessionSeen = new Set();
+  answered = false;
+  currentQ = null;
+  nextQ();
+}
+
+function resetAll(){
+  results = {};
+  sessionSeen = new Set();
+  answered = false;
+  currentQ = null;
+  updateStats();
+  nextQ();
+}
+
+document.getElementById("footerDate").textContent = "Actualizado " + new Date().toLocaleDateString("es-MX",{year:"numeric",month:"long"});
+buildCatFilters();
+buildDiffFilters();
+workingPool = [...ALL_Q];
+nextQ();
+</script>
+</body>
+</html>
