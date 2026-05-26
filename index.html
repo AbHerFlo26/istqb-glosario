@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glosario ISTQB — Actividades y Tareas de Prueba</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e0e0f;
+  --bg2: #161618;
+  --bg3: #1e1e21;
+  --border: rgba(255,255,255,0.07);
+  --border-hover: rgba(255,255,255,0.14);
+  --text: #e8e6e0;
+  --muted: #7a7870;
+  --faint: #3a3835;
+  --purple: #b8a9f5;
+  --purple-bg: rgba(184,169,245,0.08);
+  --teal: #6fcfb0;
+  --teal-bg: rgba(111,207,176,0.08);
+  --coral: #f0856a;
+  --coral-bg: rgba(240,133,106,0.08);
+  --blue: #7ab8f5;
+  --blue-bg: rgba(122,184,245,0.08);
+  --amber: #e8b96a;
+  --amber-bg: rgba(232,185,106,0.08);
+  --accent: #b8a9f5;
+  --radius: 10px;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* Header */
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 3rem 2rem 2rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.header-tag {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+h1 em {
+  font-style: italic;
+  color: var(--purple);
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 0.75rem;
+}
+
+/* Controls */
+.controls {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.search-wrap {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+
+.search-wrap svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+input[type="text"] {
+  width: 100%;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 12px 9px 36px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s;
+}
+
+input[type="text"]:focus { border-color: var(--accent); }
+input[type="text"]::placeholder { color: var(--muted); }
+
+.filters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-size: 11px;
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  color: var(--muted);
+  background: transparent;
+  font-family: var(--font-mono);
+  letter-spacing: 0.03em;
+  transition: all .15s;
+  white-space: nowrap;
+}
+
+.chip:hover { border-color: var(--border-hover); color: var(--text); }
+.chip.active { border-color: var(--accent); color: var(--accent); background: rgba(184,169,245,0.06); }
+
+/* Main */
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.count-bar {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+.category-block { margin-bottom: 2.5rem; }
+
+.cat-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.cat-label.artefactos { color: var(--purple); background: var(--purple-bg); }
+.cat-label.actividades { color: var(--teal); background: var(--teal-bg); }
+.cat-label.tipos { color: var(--coral); background: var(--coral-bg); }
+.cat-label.proceso { color: var(--blue); background: var(--blue-bg); }
+.cat-label.conceptos { color: var(--amber); background: var(--amber-bg); }
+
+.cat-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0;
+}
+
+.term-grid { display: flex; flex-direction: column; gap: 1px; }
+
+.term-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: border-color .2s;
+  margin-bottom: 4px;
+}
+
+.term-card:hover { border-color: var(--border-hover); }
+
+.term-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  cursor: pointer;
+  user-select: none;
+  gap: 12px;
+}
+
+.term-left { flex: 1; }
+
+.term-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.term-en {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+  letter-spacing: 0.03em;
+}
+
+.term-toggle {
+  width: 22px; height: 22px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all .2s;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.term-card.open .term-toggle {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: rotate(45deg);
+}
+
+.term-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease;
+}
+
+.term-body-inner {
+  padding: 0 18px 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+.term-def {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.75;
+  opacity: 0.85;
+}
+
+.term-note {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--bg3);
+  border-left: 2px solid var(--faint);
+  border-radius: 0 6px 6px 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.term-note strong { color: var(--text); font-weight: 500; }
+
+/* No results */
+.no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--muted);
+}
+
+.no-results-icon { font-size: 2rem; margin-bottom: 0.75rem; opacity: 0.4; }
+
+/* Footer */
+footer {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 3px; }
+
+@media (max-width: 600px) {
+  header, .controls, main, footer { padding-left: 1.25rem; padding-right: 1.25rem; }
+  h1 { font-size: 2rem; }
+  .controls { flex-direction: column; align-items: stretch; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <p class="header-tag">ISTQB Foundation Level · Sección 4</p>
+  <h1>Glosario de <em>Pruebas</em></h1>
+  <p class="subtitle">Actividades y tareas de prueba · 30 términos en 5 categorías</p>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Buscar término en español o inglés…" oninput="renderAll()">
+  </div>
+  <div class="filters" id="filters"></div>
+</div>
+
+<main>
+  <p class="count-bar" id="countBar"></p>
+  <div id="output"></div>
+</main>
+
+<footer>
+  <span>ISTQB Foundation Level — Glosario personal</span>
+  <span id="ts"></span>
+</footer>
+
+<script>
+const DATA = [
+  {
+    cat: "artefactos",
+    label: "Artefactos de prueba",
+    terms: [
+      {es:"Caso de prueba", en:"Test case", def:"Conjunto de precondiciones, entradas, acciones, resultados esperados y postcondiciones necesarias para ejecutar un escenario de prueba específico.", note:"Es la unidad básica de ejecución. Define exactamente qué probar y cómo verificar el resultado."},
+      {es:"Condición de prueba", en:"Test condition", def:"Un aspecto del componente o sistema que puede ser verificado por una o más pruebas. Puede ser una función, transacción, atributo de calidad o elemento estructural.", note:"Más abstracta que el caso de prueba; una condición puede dar origen a múltiples casos."},
+      {es:"Base de prueba", en:"Test basis", def:"Toda la documentación que sirve como fuente para identificar las condiciones de prueba. Incluye requisitos, especificaciones, código fuente y modelos.", note:"Puede ser formal (documentos) o informal (conocimiento de expertos). Si cambia, las pruebas deben actualizarse."},
+      {es:"Datos de prueba", en:"Test data", def:"Datos creados o seleccionados para que el componente o sistema bajo prueba ejecute correctamente un caso de prueba.", note:"Incluye datos de entrada, datos del entorno y datos de referencia para comparar resultados."},
+      {es:"Suite de prueba", en:"Test suite", def:"Colección de casos de prueba agrupados para ejecutarse juntos, generalmente porque comparten un objetivo, área funcional o nivel de prueba.", note:"También llamada 'conjunto de pruebas'. Permite automatizar y organizar la ejecución."},
+      {es:"Oráculo de prueba", en:"Test oracle", def:"Fuente que proporciona el resultado esperado de una prueba para poder compararlo con el resultado real.", note:"Puede ser una especificación, un sistema existente, código de referencia o juicio de un experto."},
+    ]
+  },
+  {
+    cat: "actividades",
+    label: "Actividades de prueba",
+    terms: [
+      {es:"Prueba de regresión", en:"Regression testing", def:"Pruebas realizadas sobre un sistema modificado para verificar que los cambios no han introducido defectos ni degradado la funcionalidad existente.", note:"Clave en integración continua. Suele automatizarse para ejecutarse tras cada cambio."},
+      {es:"Prueba de confirmación", en:"Confirmation testing / Re-testing", def:"Prueba ejecutada específicamente para verificar que un defecto previamente reportado ha sido corregido con éxito.", note:"También llamada re-testing. Diferente de la regresión: aquí se prueba exactamente lo que falló."},
+      {es:"Prueba de humo", en:"Smoke testing", def:"Conjunto mínimo de pruebas ejecutadas para verificar que las funcionalidades más críticas del sistema funcionan antes de aceptar una compilación.", note:"Actúa como 'portero'. Si falla el smoke test, la versión se rechaza sin continuar."},
+      {es:"Prueba de cordura", en:"Sanity testing", def:"Prueba superficial y rápida para verificar que una funcionalidad específica o corrección de defecto funciona como se espera.", note:"Menos extensa que el smoke test. Se usa después de recibir una compilación con cambios menores."},
+      {es:"Prueba exploratoria", en:"Exploratory testing", def:"Prueba simultánea de diseño, ejecución y aprendizaje, donde el probador usa su juicio para investigar el sistema sin casos de prueba predefinidos.", note:"Muy efectiva para descubrir defectos inesperados. Complementa las pruebas basadas en scripts."},
+    ]
+  },
+  {
+    cat: "tipos",
+    label: "Tipos y niveles de prueba",
+    terms: [
+      {es:"Prueba de componente", en:"Component testing / Unit testing", def:"Prueba de componentes individuales del software de forma aislada, generalmente con soporte de drivers y stubs.", note:"El nivel más granular. Lo realiza típicamente el desarrollador. También llamado prueba unitaria."},
+      {es:"Prueba de integración", en:"Integration testing", def:"Prueba enfocada en las interacciones entre componentes o sistemas, verificando que los módulos funcionan correctamente al combinarse.", note:"Puede ser de integración de componentes (interna) o integración de sistemas (con sistemas externos)."},
+      {es:"Prueba de sistema", en:"System testing", def:"Prueba del sistema completo e integrado, orientada a verificar que cumple los requisitos funcionales y no funcionales especificados.", note:"Normalmente realizada por un equipo independiente de QA. Cubre escenarios de extremo a extremo."},
+      {es:"Prueba de aceptación", en:"Acceptance testing", def:"Prueba formal para determinar si el sistema satisface los criterios de aceptación y si debe ser aceptado por los stakeholders.", note:"Incluye UAT (User Acceptance Testing). Es la validación final antes de la entrega al usuario."},
+      {es:"Prueba funcional", en:"Functional testing", def:"Prueba basada en el análisis de las especificaciones funcionales, verificando qué hace el sistema.", note:"Se basa en la especificación de casos de uso, requisitos y reglas de negocio."},
+      {es:"Prueba no funcional", en:"Non-functional testing", def:"Prueba de características no relacionadas con la funcionalidad, como rendimiento, seguridad, usabilidad, portabilidad y fiabilidad.", note:"Responde a la pregunta 'cómo de bien' funciona el sistema, no 'qué' hace."},
+    ]
+  },
+  {
+    cat: "proceso",
+    label: "Proceso de prueba",
+    terms: [
+      {es:"Plan de prueba", en:"Test plan", def:"Documento que describe el alcance, enfoque, recursos y calendario de las actividades de prueba previstas.", note:"Incluye estrategia, criterios de entrada/salida, riesgos y responsabilidades."},
+      {es:"Criterio de entrada", en:"Entry criterion", def:"Condiciones que deben cumplirse antes de iniciar una actividad de prueba para garantizar que el proceso puede desarrollarse de forma efectiva.", note:"Ejemplo: el ambiente de prueba debe estar disponible y el código debe pasar el smoke test."},
+      {es:"Criterio de salida", en:"Exit criterion", def:"Condiciones que deben satisfacerse para que una actividad de prueba sea considerada completada.", note:"Ejemplo: 90% de casos ejecutados, sin defectos críticos abiertos. Define cuándo 'terminar'."},
+      {es:"Informe de defecto", en:"Defect report / Bug report", def:"Documentación de la ocurrencia, naturaleza e impacto de un defecto, así como la información necesaria para reproducirlo.", note:"Debe incluir: pasos para reproducir, resultado actual, resultado esperado, severidad y entorno."},
+      {es:"Trazabilidad", en:"Traceability", def:"Capacidad de relacionar los artefactos de prueba con los requisitos, riesgos y elementos del diseño de los que se derivan.", note:"Permite identificar qué requisitos están cubiertos y cuáles no, y evaluar el impacto de cambios."},
+      {es:"Cobertura de prueba", en:"Test coverage", def:"Grado en que los casos de prueba ejecutados cubren la base de prueba o el código del sistema.", note:"Puede medirse en cobertura de requisitos, de ramas, de sentencias, etc."},
+    ]
+  },
+  {
+    cat: "conceptos",
+    label: "Conceptos fundamentales",
+    terms: [
+      {es:"Defecto", en:"Defect / Bug / Fault", def:"Imperfección o deficiencia en un producto de trabajo que puede causar que el componente o sistema no cumpla con sus requisitos.", note:"Cadena ISTQB: error (humano) → defecto (en el artefacto) → fallo (comportamiento incorrecto en ejecución)."},
+      {es:"Fallo", en:"Failure", def:"Comportamiento del componente o sistema que no se ajusta a lo esperado, causado típicamente por un defecto en el código.", note:"No todo defecto causa un fallo. No todo fallo viene de un defecto (puede ser por entorno)."},
+      {es:"Riesgo de producto", en:"Product risk", def:"Riesgo relacionado con el objeto de prueba: posibilidad de que el sistema no satisfaga los requisitos de los stakeholders.", note:"Orienta el enfoque de pruebas: más recursos donde el riesgo es mayor."},
+      {es:"Prueba basada en riesgo", en:"Risk-based testing", def:"Enfoque que prioriza las actividades de prueba en función de la probabilidad e impacto de los riesgos identificados.", note:"Permite optimizar el esfuerzo cuando el tiempo y recursos son limitados."},
+      {es:"Objeto de prueba", en:"Test object", def:"El componente, sistema o elemento de software sobre el que se ejecutan las pruebas.", note:"Puede ser código, documentación, configuración o un sistema completo dependiendo del nivel de prueba."},
+      {es:"Entorno de prueba", en:"Test environment", def:"Infraestructura compuesta por hardware, software, datos, red y procedimientos necesarios para ejecutar las pruebas.", note:"Debe reflejar el entorno de producción lo más fielmente posible para resultados representativos."},
+    ]
+  }
+];
+
+const ALL_CATS = ["Todos", ...DATA.map(d => d.label)];
+let activeFilter = "Todos";
+let openCards = new Set();
+
+function buildFilters() {
+  document.getElementById("filters").innerHTML = ALL_CATS.map(c =>
+    `<button class="chip ${c === activeFilter ? 'active' : ''}" onclick="setFilter('${c}')">${c}</button>`
+  ).join("");
+}
+
+function setFilter(cat) {
+  activeFilter = cat;
+  buildFilters();
+  renderAll();
+}
+
+function toggle(id) {
+  if (openCards.has(id)) openCards.delete(id);
+  else openCards.add(id);
+  const card = document.getElementById("card-" + id);
+  const body = document.getElementById("body-" + id);
+  if (card && body) {
+    card.classList.toggle("open", openCards.has(id));
+    body.style.maxHeight = openCards.has(id) ? body.scrollHeight + "px" : "0";
+  }
+}
+
+function renderAll() {
+  const q = document.getElementById("searchInput").value.toLowerCase().trim();
+  let total = 0;
+  let html = "";
+
+  for (const cat of DATA) {
+    if (activeFilter !== "Todos" && activeFilter !== cat.label) continue;
+    const terms = cat.terms.filter(t =>
+      !q || t.es.toLowerCase().includes(q) || t.en.toLowerCase().includes(q) || t.def.toLowerCase().includes(q)
+    );
+    if (!terms.length) continue;
+    total += terms.length;
+
+    html += `<div class="category-block">
+      <div class="cat-label ${cat.cat}"><span class="cat-dot"></span>${cat.label}</div>
+      <div class="term-grid">`;
+
+    for (const t of terms) {
+      const id = t.es.replace(/[^a-z0-9]/gi, "-");
+      const isOpen = openCards.has(id);
+      html += `
+        <div class="term-card ${isOpen ? 'open' : ''}" id="card-${id}">
+          <div class="term-header" onclick="toggle('${id}')">
+            <div class="term-left">
+              <div class="term-name">${t.es}</div>
+              <div class="term-en">${t.en}</div>
+            </div>
+            <div class="term-toggle">+</div>
+          </div>
+          <div class="term-body" id="body-${id}" style="max-height:${isOpen ? '300px' : '0'}">
+            <div class="term-body-inner">
+              <p class="term-def">${t.def}</p>
+              ${t.note ? `<div class="term-note"><strong>Nota ISTQB:</strong> ${t.note}</div>` : ""}
+            </div>
+          </div>
+        </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  if (!html) {
+    html = `<div class="no-results"><div class="no-results-icon">⊘</div>Sin resultados para "<em>${q}</em>"</div>`;
+  }
+
+  document.getElementById("output").innerHTML = html;
+  document.getElementById("countBar").textContent = `${total} término${total !== 1 ? 's' : ''} · ${activeFilter}`;
+}
+
+document.getElementById("ts").textContent = "Actualizado " + new Date().toLocaleDateString("es-MX", {year:"numeric",month:"long"});
+buildFilters();
+renderAll();
+</script>
+</body>
+</html>
