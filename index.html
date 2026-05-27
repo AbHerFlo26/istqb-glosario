@@ -275,6 +275,20 @@ main {
 
 .term-note strong { color: var(--text); font-weight: 500; }
 
+.term-example {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: rgba(184,169,245,0.05);
+  border-left: 2px solid rgba(184,169,245,0.35);
+  border-radius: 0 6px 6px 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.term-example strong { color: var(--purple); font-weight: 500; }
+.term-example em { color: var(--text); font-style: normal; opacity: 0.85; }
+
 /* No results */
 .no-results {
   text-align: center;
@@ -343,59 +357,59 @@ const DATA = [
     cat: "artefactos",
     label: "Artefactos de prueba",
     terms: [
-      {es:"Caso de prueba", en:"Test case", def:"Conjunto de precondiciones, entradas, acciones, resultados esperados y postcondiciones necesarias para ejecutar un escenario de prueba específico.", note:"Es la unidad básica de ejecución. Define exactamente qué probar y cómo verificar el resultado."},
-      {es:"Condición de prueba", en:"Test condition", def:"Un aspecto del componente o sistema que puede ser verificado por una o más pruebas. Puede ser una función, transacción, atributo de calidad o elemento estructural.", note:"Más abstracta que el caso de prueba; una condición puede dar origen a múltiples casos."},
-      {es:"Base de prueba", en:"Test basis", def:"Toda la documentación que sirve como fuente para identificar las condiciones de prueba. Incluye requisitos, especificaciones, código fuente y modelos.", note:"Puede ser formal (documentos) o informal (conocimiento de expertos). Si cambia, las pruebas deben actualizarse."},
-      {es:"Datos de prueba", en:"Test data", def:"Datos creados o seleccionados para que el componente o sistema bajo prueba ejecute correctamente un caso de prueba.", note:"Incluye datos de entrada, datos del entorno y datos de referencia para comparar resultados."},
-      {es:"Suite de prueba", en:"Test suite", def:"Colección de casos de prueba agrupados para ejecutarse juntos, generalmente porque comparten un objetivo, área funcional o nivel de prueba.", note:"También llamada 'conjunto de pruebas'. Permite automatizar y organizar la ejecución."},
-      {es:"Oráculo de prueba", en:"Test oracle", def:"Fuente que proporciona el resultado esperado de una prueba para poder compararlo con el resultado real.", note:"Puede ser una especificación, un sistema existente, código de referencia o juicio de un experto."},
+      {es:"Caso de prueba", en:"Test case", def:"Conjunto de precondiciones, entradas, acciones, resultados esperados y postcondiciones necesarias para ejecutar un escenario de prueba específico.", note:"Es la unidad básica de ejecución. Define exactamente qué probar y cómo verificar el resultado.", example:"Precondición: usuario autenticado. Entrada: clic en 'Pagar' con carrito vacío. Resultado esperado: mensaje de error 'Tu carrito está vacío'. Postcondición: no se genera ninguna orden."},
+      {es:"Condición de prueba", en:"Test condition", def:"Un aspecto del componente o sistema que puede ser verificado por una o más pruebas. Puede ser una función, transacción, atributo de calidad o elemento estructural.", note:"Más abstracta que el caso de prueba; una condición puede dar origen a múltiples casos.", example:"Condición: 'el sistema debe calcular correctamente el descuento'. De esta sola condición se derivan múltiples casos: descuento del 10%, 50%, 0%, descuento con producto sin stock, etc."},
+      {es:"Base de prueba", en:"Test basis", def:"Toda la documentación que sirve como fuente para identificar las condiciones de prueba. Incluye requisitos, especificaciones, código fuente y modelos.", note:"Puede ser formal (documentos) o informal (conocimiento de expertos). Si cambia, las pruebas deben actualizarse.", example:"Para un módulo de login, la base de prueba incluye: el documento de requisitos ('el usuario debe poder iniciar sesión con email y contraseña'), el wireframe de la pantalla y las reglas de negocio de intentos fallidos."},
+      {es:"Datos de prueba", en:"Test data", def:"Datos creados o seleccionados para que el componente o sistema bajo prueba ejecute correctamente un caso de prueba.", note:"Incluye datos de entrada, datos del entorno y datos de referencia para comparar resultados.", example:"Para probar el cálculo de IVA: datos de prueba serían un producto de $100 MXN (entrada), la tasa del 16% (dato de entorno) y $116 MXN (dato de referencia para comparar el resultado real)."},
+      {es:"Suite de prueba", en:"Test suite", def:"Colección de casos de prueba agrupados para ejecutarse juntos, generalmente porque comparten un objetivo, área funcional o nivel de prueba.", note:"También llamada 'conjunto de pruebas'. Permite automatizar y organizar la ejecución.", example:"La 'Suite de Regresión de Pagos' agrupa 45 casos de prueba del módulo de cobro que se ejecutan automáticamente cada noche para detectar si algo se rompió con los cambios del día."},
+      {es:"Oráculo de prueba", en:"Test oracle", def:"Fuente que proporciona el resultado esperado de una prueba para poder compararlo con el resultado real.", note:"Puede ser una especificación, un sistema existente, código de referencia o juicio de un experto.", example:"Al probar una calculadora de impuestos, el oráculo es la fórmula oficial del SAT. El tester calcula manualmente el resultado usando esa fórmula y lo compara con lo que produce el sistema."},
     ]
   },
   {
     cat: "actividades",
     label: "Actividades de prueba",
     terms: [
-      {es:"Prueba de regresión", en:"Regression testing", def:"Pruebas realizadas sobre un sistema modificado para verificar que los cambios no han introducido defectos ni degradado la funcionalidad existente.", note:"Clave en integración continua. Suele automatizarse para ejecutarse tras cada cambio."},
-      {es:"Prueba de confirmación", en:"Confirmation testing / Re-testing", def:"Prueba ejecutada específicamente para verificar que un defecto previamente reportado ha sido corregido con éxito.", note:"También llamada re-testing. Diferente de la regresión: aquí se prueba exactamente lo que falló."},
-      {es:"Prueba de humo", en:"Smoke testing", def:"Conjunto mínimo de pruebas ejecutadas para verificar que las funcionalidades más críticas del sistema funcionan antes de aceptar una compilación.", note:"Actúa como 'portero'. Si falla el smoke test, la versión se rechaza sin continuar."},
-      {es:"Prueba de cordura", en:"Sanity testing", def:"Prueba superficial y rápida para verificar que una funcionalidad específica o corrección de defecto funciona como se espera.", note:"Menos extensa que el smoke test. Se usa después de recibir una compilación con cambios menores."},
-      {es:"Prueba exploratoria", en:"Exploratory testing", def:"Prueba simultánea de diseño, ejecución y aprendizaje, donde el probador usa su juicio para investigar el sistema sin casos de prueba predefinidos.", note:"Muy efectiva para descubrir defectos inesperados. Complementa las pruebas basadas en scripts."},
+      {es:"Prueba de regresión", en:"Regression testing", def:"Pruebas realizadas sobre un sistema modificado para verificar que los cambios no han introducido defectos ni degradado la funcionalidad existente.", note:"Clave en integración continua. Suele automatizarse para ejecutarse tras cada cambio.", example:"El equipo corrige un bug en el módulo de envíos. Aunque el fix solo toca ese módulo, ejecutan la suite completa de regresión para asegurarse de que el carrito, los pagos y las notificaciones siguen funcionando."},
+      {es:"Prueba de confirmación", en:"Confirmation testing / Re-testing", def:"Prueba ejecutada específicamente para verificar que un defecto previamente reportado ha sido corregido con éxito.", note:"También llamada re-testing. Diferente de la regresión: aquí se prueba exactamente lo que falló.", example:"El bug #205 decía: 'al buscar con mayúsculas no aparecen resultados'. El desarrollador aplica el fix. El tester vuelve a buscar con mayúsculas — si ahora funciona, el bug se marca como cerrado."},
+      {es:"Prueba de humo", en:"Smoke testing", def:"Conjunto mínimo de pruebas ejecutadas para verificar que las funcionalidades más críticas del sistema funcionan antes de aceptar una compilación.", note:"Actúa como 'portero'. Si falla el smoke test, la versión se rechaza sin continuar.", example:"A las 9am llega una nueva compilación. El equipo ejecuta 10 casos básicos: ¿carga la app? ¿el login funciona? ¿se puede agregar un producto al carrito? Si alguno falla, devuelven la compilación sin hacer más pruebas."},
+      {es:"Prueba de cordura", en:"Sanity testing", def:"Prueba superficial y rápida para verificar que una funcionalidad específica o corrección de defecto funciona como se espera.", note:"Menos extensa que el smoke test. Se usa después de recibir una compilación con cambios menores.", example:"El desarrollador corrigió solo el cálculo de descuentos para clientes VIP. El tester revisa rápidamente ese cálculo con 3 o 4 casos representativos — sin ejecutar el resto del sistema."},
+      {es:"Prueba exploratoria", en:"Exploratory testing", def:"Prueba simultánea de diseño, ejecución y aprendizaje, donde el probador usa su juicio para investigar el sistema sin casos de prueba predefinidos.", note:"Muy efectiva para descubrir defectos inesperados. Complementa las pruebas basadas en scripts.", example:"Una tester experimenta con el formulario de registro: prueba pegar texto con emojis en el nombre, ingresar un email con 200 caracteres, o dejar campos en blanco en orden inesperado — descubriendo defectos que ningún caso de prueba formal habría cubierto."},
     ]
   },
   {
     cat: "tipos",
     label: "Tipos y niveles de prueba",
     terms: [
-      {es:"Prueba de componente", en:"Component testing / Unit testing", def:"Prueba de componentes individuales del software de forma aislada, generalmente con soporte de drivers y stubs.", note:"El nivel más granular. Lo realiza típicamente el desarrollador. También llamado prueba unitaria."},
-      {es:"Prueba de integración", en:"Integration testing", def:"Prueba enfocada en las interacciones entre componentes o sistemas, verificando que los módulos funcionan correctamente al combinarse.", note:"Puede ser de integración de componentes (interna) o integración de sistemas (con sistemas externos)."},
-      {es:"Prueba de sistema", en:"System testing", def:"Prueba del sistema completo e integrado, orientada a verificar que cumple los requisitos funcionales y no funcionales especificados.", note:"Normalmente realizada por un equipo independiente de QA. Cubre escenarios de extremo a extremo."},
-      {es:"Prueba de aceptación", en:"Acceptance testing", def:"Prueba formal para determinar si el sistema satisface los criterios de aceptación y si debe ser aceptado por los stakeholders.", note:"Incluye UAT (User Acceptance Testing). Es la validación final antes de la entrega al usuario."},
-      {es:"Prueba funcional", en:"Functional testing", def:"Prueba basada en el análisis de las especificaciones funcionales, verificando qué hace el sistema.", note:"Se basa en la especificación de casos de uso, requisitos y reglas de negocio."},
-      {es:"Prueba no funcional", en:"Non-functional testing", def:"Prueba de características no relacionadas con la funcionalidad, como rendimiento, seguridad, usabilidad, portabilidad y fiabilidad.", note:"Responde a la pregunta 'cómo de bien' funciona el sistema, no 'qué' hace."},
+      {es:"Prueba de componente", en:"Component testing / Unit testing", def:"Prueba de componentes individuales del software de forma aislada, generalmente con soporte de drivers y stubs.", note:"El nivel más granular. Lo realiza típicamente el desarrollador. También llamado prueba unitaria.", example:"El desarrollador prueba solo la función calcularIVA(precio, tasa). Le pasa $100 y 16% directamente — sin base de datos, sin interfaz gráfica. Solo verifica que retorna $116."},
+      {es:"Prueba de integración", en:"Integration testing", def:"Prueba enfocada en las interacciones entre componentes o sistemas, verificando que los módulos funcionan correctamente al combinarse.", note:"Puede ser de integración de componentes (interna) o integración de sistemas (con sistemas externos).", example:"El módulo de carrito se conecta por primera vez con el módulo de inventario. La prueba verifica que al agregar un producto al carrito, el inventario descuenta correctamente la unidad disponible."},
+      {es:"Prueba de sistema", en:"System testing", def:"Prueba del sistema completo e integrado, orientada a verificar que cumple los requisitos funcionales y no funcionales especificados.", note:"Normalmente realizada por un equipo independiente de QA. Cubre escenarios de extremo a extremo.", example:"El equipo de QA prueba el flujo completo: buscar producto → agregar al carrito → pagar con tarjeta → recibir email de confirmación. Todo el sistema funcionando junto, como lo haría un usuario real."},
+      {es:"Prueba de aceptación", en:"Acceptance testing", def:"Prueba formal para determinar si el sistema satisface los criterios de aceptación y si debe ser aceptado por los stakeholders.", note:"Incluye UAT (User Acceptance Testing). Es la validación final antes de la entrega al usuario.", example:"Los gerentes del cliente ejecutan sus propios escenarios de negocio en el sistema. Si todo funciona como acordaron en el contrato, firman la aceptación formal y el sistema pasa a producción."},
+      {es:"Prueba funcional", en:"Functional testing", def:"Prueba basada en el análisis de las especificaciones funcionales, verificando qué hace el sistema.", note:"Se basa en la especificación de casos de uso, requisitos y reglas de negocio.", example:"El requisito dice: 'un usuario no puede comprar más de 5 unidades del mismo producto'. La prueba funcional verifica exactamente eso: intenta agregar 6 unidades y confirma que el sistema lo impide."},
+      {es:"Prueba no funcional", en:"Non-functional testing", def:"Prueba de características no relacionadas con la funcionalidad, como rendimiento, seguridad, usabilidad, portabilidad y fiabilidad.", note:"Responde a la pregunta 'cómo de bien' funciona el sistema, no 'qué' hace.", example:"El sistema procesa correctamente los pagos (funcional ✓), pero tarda 9 segundos en confirmar cada transacción cuando el requisito dice máximo 2 segundos. Eso lo detecta una prueba no funcional de rendimiento."},
     ]
   },
   {
     cat: "proceso",
     label: "Proceso de prueba",
     terms: [
-      {es:"Plan de prueba", en:"Test plan", def:"Documento que describe el alcance, enfoque, recursos y calendario de las actividades de prueba previstas.", note:"Incluye estrategia, criterios de entrada/salida, riesgos y responsabilidades."},
-      {es:"Criterio de entrada", en:"Entry criterion", def:"Condiciones que deben cumplirse antes de iniciar una actividad de prueba para garantizar que el proceso puede desarrollarse de forma efectiva.", note:"Ejemplo: el ambiente de prueba debe estar disponible y el código debe pasar el smoke test."},
-      {es:"Criterio de salida", en:"Exit criterion", def:"Condiciones que deben satisfacerse para que una actividad de prueba sea considerada completada.", note:"Ejemplo: 90% de casos ejecutados, sin defectos críticos abiertos. Define cuándo 'terminar'."},
-      {es:"Informe de defecto", en:"Defect report / Bug report", def:"Documentación de la ocurrencia, naturaleza e impacto de un defecto, así como la información necesaria para reproducirlo.", note:"Debe incluir: pasos para reproducir, resultado actual, resultado esperado, severidad y entorno."},
-      {es:"Trazabilidad", en:"Traceability", def:"Capacidad de relacionar los artefactos de prueba con los requisitos, riesgos y elementos del diseño de los que se derivan.", note:"Permite identificar qué requisitos están cubiertos y cuáles no, y evaluar el impacto de cambios."},
-      {es:"Cobertura de prueba", en:"Test coverage", def:"Grado en que los casos de prueba ejecutados cubren la base de prueba o el código del sistema.", note:"Puede medirse en cobertura de requisitos, de ramas, de sentencias, etc."},
+      {es:"Plan de prueba", en:"Test plan", def:"Documento que describe el alcance, enfoque, recursos y calendario de las actividades de prueba previstas.", note:"Incluye estrategia, criterios de entrada/salida, riesgos y responsabilidades.", example:"El plan de prueba del proyecto e-commerce especifica: se probará el módulo de pagos y carrito, se usará partición de equivalencia como técnica, el equipo tiene 2 testers, el plazo es 3 semanas, y el riesgo mayor es la integración con el banco."},
+      {es:"Criterio de entrada", en:"Entry criterion", def:"Condiciones que deben cumplirse antes de iniciar una actividad de prueba para garantizar que el proceso puede desarrollarse de forma efectiva.", note:"Ejemplo: el ambiente de prueba debe estar disponible y el código debe pasar el smoke test.", example:"El equipo acuerda: 'no iniciamos pruebas hasta que el ambiente esté configurado, el código esté en el repositorio y el smoke test automático haya pasado'. Si el servidor cae, las pruebas se detienen aunque ya hayan comenzado."},
+      {es:"Criterio de salida", en:"Exit criterion", def:"Condiciones que deben satisfacerse para que una actividad de prueba sea considerada completada.", note:"Ejemplo: 90% de casos ejecutados, sin defectos críticos abiertos. Define cuándo 'terminar'.", example:"El equipo define: 'las pruebas terminan cuando el 95% de los casos están ejecutados y no hay defectos de severidad alta abiertos'. Sin este criterio, el proyecto podría quedarse en pruebas indefinidamente."},
+      {es:"Informe de defecto", en:"Defect report / Bug report", def:"Documentación de la ocurrencia, naturaleza e impacto de un defecto, así como la información necesaria para reproducirlo.", note:"Debe incluir: pasos para reproducir, resultado actual, resultado esperado, severidad y entorno.", example:"Bug #312 — Severidad: Alta. Pasos: 1) Ir a checkout, 2) Aplicar cupón 'VERANO20', 3) Clic en pagar. Resultado actual: el descuento no se aplica. Resultado esperado: 20% de descuento. Entorno: Chrome 124, producción."},
+      {es:"Trazabilidad", en:"Traceability", def:"Capacidad de relacionar los artefactos de prueba con los requisitos, riesgos y elementos del diseño de los que se derivan.", note:"Permite identificar qué requisitos están cubiertos y cuáles no, y evaluar el impacto de cambios.", example:"El requisito RF-05 ('el usuario puede recuperar su contraseña') está vinculado a los casos de prueba CP-18, CP-19 y CP-20. Si RF-05 cambia, el equipo sabe inmediatamente qué casos actualizar."},
+      {es:"Cobertura de prueba", en:"Test coverage", def:"Grado en que los casos de prueba ejecutados cubren la base de prueba o el código del sistema.", note:"Puede medirse en cobertura de requisitos, de ramas, de sentencias, etc.", example:"El sistema tiene 50 requisitos. El equipo tiene casos de prueba para 40 de ellos. La cobertura de requisitos es del 80%. Los 10 requisitos sin cobertura representan un riesgo que debe reportarse al cliente."},
     ]
   },
   {
     cat: "conceptos",
     label: "Conceptos fundamentales",
     terms: [
-      {es:"Defecto", en:"Defect / Bug / Fault", def:"Imperfección o deficiencia en un producto de trabajo que puede causar que el componente o sistema no cumpla con sus requisitos.", note:"Cadena ISTQB: error (humano) → defecto (en el artefacto) → fallo (comportamiento incorrecto en ejecución)."},
-      {es:"Fallo", en:"Failure", def:"Comportamiento del componente o sistema que no se ajusta a lo esperado, causado típicamente por un defecto en el código.", note:"No todo defecto causa un fallo. No todo fallo viene de un defecto (puede ser por entorno)."},
-      {es:"Riesgo de producto", en:"Product risk", def:"Riesgo relacionado con el objeto de prueba: posibilidad de que el sistema no satisfaga los requisitos de los stakeholders.", note:"Orienta el enfoque de pruebas: más recursos donde el riesgo es mayor."},
-      {es:"Prueba basada en riesgo", en:"Risk-based testing", def:"Enfoque que prioriza las actividades de prueba en función de la probabilidad e impacto de los riesgos identificados.", note:"Permite optimizar el esfuerzo cuando el tiempo y recursos son limitados."},
-      {es:"Objeto de prueba", en:"Test object", def:"El componente, sistema o elemento de software sobre el que se ejecutan las pruebas.", note:"Puede ser código, documentación, configuración o un sistema completo dependiendo del nivel de prueba."},
-      {es:"Entorno de prueba", en:"Test environment", def:"Infraestructura compuesta por hardware, software, datos, red y procedimientos necesarios para ejecutar las pruebas.", note:"Debe reflejar el entorno de producción lo más fielmente posible para resultados representativos."},
+      {es:"Defecto", en:"Defect / Bug / Fault", def:"Imperfección o deficiencia en un producto de trabajo que puede causar que el componente o sistema no cumpla con sus requisitos.", note:"Cadena ISTQB: error (humano) → defecto (en el artefacto) → fallo (comportamiento incorrecto en ejecución).", example:"Un desarrollador escribe > en lugar de >= al validar la edad mínima. Ese error humano introduce un defecto en el código. Cuando un usuario de exactamente 18 años intenta registrarse, experimenta un fallo: el sistema lo rechaza incorrectamente."},
+      {es:"Fallo", en:"Failure", def:"Comportamiento del componente o sistema que no se ajusta a lo esperado, causado típicamente por un defecto en el código.", note:"No todo defecto causa un fallo. No todo fallo viene de un defecto (puede ser por entorno).", example:"El usuario hace clic en 'Generar reporte' y el sistema muestra un error 500 en lugar del PDF esperado. Eso es un fallo. También puede ocurrir un fallo sin defecto en el código: si el servidor de reportes se cae, el fallo es del entorno."},
+      {es:"Riesgo de producto", en:"Product risk", def:"Riesgo relacionado con el objeto de prueba: posibilidad de que el sistema no satisfaga los requisitos de los stakeholders.", note:"Orienta el enfoque de pruebas: más recursos donde el riesgo es mayor.", example:"En una app bancaria, el riesgo de producto más alto es que el módulo de transferencias falle y mueva dinero incorrectamente. Aunque el módulo de 'cambiar foto de perfil' también puede tener defectos, su riesgo es mucho menor."},
+      {es:"Prueba basada en riesgo", en:"Risk-based testing", def:"Enfoque que prioriza las actividades de prueba en función de la probabilidad e impacto de los riesgos identificados.", note:"Permite optimizar el esfuerzo cuando el tiempo y recursos son limitados.", example:"El equipo tiene 3 días para probar antes del lanzamiento. En lugar de probar todo por igual, dedica 2 días al módulo de pagos (alto riesgo) y 1 día al módulo de perfil de usuario (bajo riesgo)."},
+      {es:"Objeto de prueba", en:"Test object", def:"El componente, sistema o elemento de software sobre el que se ejecutan las pruebas.", note:"Puede ser código, documentación, configuración o un sistema completo dependiendo del nivel de prueba.", example:"En una prueba unitaria, el objeto de prueba es la función calcularEnvio(). En una prueba de sistema, el objeto de prueba es toda la aplicación de e-commerce. En una revisión estática, el objeto de prueba puede ser el documento de requisitos."},
+      {es:"Entorno de prueba", en:"Test environment", def:"Infraestructura compuesta por hardware, software, datos, red y procedimientos necesarios para ejecutar las pruebas.", note:"Debe reflejar el entorno de producción lo más fielmente posible para resultados representativos.", example:"El entorno de prueba incluye: un servidor similar al de producción, una copia de la base de datos con datos anonimizados, la misma versión de Node.js que usa producción, y acceso al sandbox del proveedor de pagos."},
     ]
   }
 ];
@@ -423,7 +437,7 @@ function toggle(id) {
   const body = document.getElementById("body-" + id);
   if (card && body) {
     card.classList.toggle("open", openCards.has(id));
-    body.style.maxHeight = openCards.has(id) ? body.scrollHeight + "px" : "0";
+    body.style.maxHeight = openCards.has(id) ? body.scrollHeight + 40 + "px" : "0";
   }
 }
 
@@ -456,10 +470,11 @@ function renderAll() {
             </div>
             <div class="term-toggle">+</div>
           </div>
-          <div class="term-body" id="body-${id}" style="max-height:${isOpen ? '300px' : '0'}">
+          <div class="term-body" id="body-${id}" style="max-height:${isOpen ? '500px' : '0'}">
             <div class="term-body-inner">
               <p class="term-def">${t.def}</p>
               ${t.note ? `<div class="term-note"><strong>Nota ISTQB:</strong> ${t.note}</div>` : ""}
+              ${t.example ? `<div class="term-example"><strong>💡 Ejemplo:</strong> <em>${t.example}</em></div>` : ""}
             </div>
           </div>
         </div>`;
