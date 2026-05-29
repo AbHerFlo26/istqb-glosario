@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glosario de Estudio Bíblico y Teológico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #f7f4ef;
+  --bg2:      #ffffff;
+  --bg3:      #f0ece4;
+  --border:   #e2dbd0;
+  --border2:  #c9bfaf;
+  --text:     #2c2416;
+  --muted:    #7a6e5f;
+  --faint:    #ddd5c8;
+
+  /* categorías */
+  --c-hermeneutica:   #6b4f9e;
+  --c-hermeneutica-bg:#f0ebfa;
+  --c-hermeneutica-b: #c9b8ed;
+
+  --c-teologia:       #1a6b4a;
+  --c-teologia-bg:    #e8f5ef;
+  --c-teologia-b:     #9fd3be;
+
+  --c-escatologia:    #9e4a1a;
+  --c-escatologia-bg: #fdf0e8;
+  --c-escatologia-b:  #f0b88a;
+
+  --c-historia:       #1a4a8a;
+  --c-historia-bg:    #e8f0fb;
+  --c-historia-b:     #8ab0e8;
+
+  --c-filosofia:      #7a4040;
+  --c-filosofia-bg:   #faeded;
+  --c-filosofia-b:    #e8aaaa;
+
+  --c-ramas:          #3a6b3a;
+  --c-ramas-bg:       #edf5ed;
+  --c-ramas-b:        #9fd09f;
+
+  --accent:   #6b4f9e;
+  --radius:   10px;
+  --radius-lg:14px;
+  --font-display: 'Lora', Georgia, serif;
+  --font-body:    'Inter', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 3rem 2rem 2.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header-tag {
+  font-size: 11px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: .75rem;
+  font-family: var(--font-body);
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.15;
+  color: var(--text);
+}
+
+h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: .6rem;
+}
+
+.verse {
+  margin-top: 1.25rem;
+  padding: 12px 16px;
+  border-left: 3px solid var(--accent);
+  background: var(--c-hermeneutica-bg);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--muted);
+  max-width: 520px;
+}
+
+.verse cite {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.controls {
+  background: var(--bg2);
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-wrap {
+  position: relative;
+}
+
+.search-wrap svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+
+input[type="text"] {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 12px 9px 36px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s;
+}
+
+input[type="text"]:focus { border-color: var(--accent); }
+input[type="text"]::placeholder { color: var(--muted); }
+
+.filter-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.filter-label { font-size: 11px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-right: 2px; }
+
+.chip {
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  color: var(--muted);
+  background: transparent;
+  font-family: var(--font-body);
+  transition: all .15s;
+  white-space: nowrap;
+}
+
+.chip:hover { border-color: var(--border2); color: var(--text); }
+.chip.active { border-color: var(--accent); color: var(--accent); background: var(--c-hermeneutica-bg); font-weight: 500; }
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.count-bar {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: .06em;
+  margin-bottom: 1.75rem;
+  text-transform: uppercase;
+}
+
+.category-block { margin-bottom: 2.5rem; }
+
+.cat-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  padding: 5px 14px;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+}
+
+.cat-label.hermeneutica { background: var(--c-hermeneutica-bg); color: var(--c-hermeneutica); border: 1px solid var(--c-hermeneutica-b); }
+.cat-label.teologia     { background: var(--c-teologia-bg);     color: var(--c-teologia);     border: 1px solid var(--c-teologia-b); }
+.cat-label.escatologia  { background: var(--c-escatologia-bg);  color: var(--c-escatologia);  border: 1px solid var(--c-escatologia-b); }
+.cat-label.historia     { background: var(--c-historia-bg);     color: var(--c-historia);     border: 1px solid var(--c-historia-b); }
+.cat-label.filosofia    { background: var(--c-filosofia-bg);    color: var(--c-filosofia);    border: 1px solid var(--c-filosofia-b); }
+.cat-label.ramas        { background: var(--c-ramas-bg);        color: var(--c-ramas);        border: 1px solid var(--c-ramas-b); }
+
+.term-grid { display: flex; flex-direction: column; gap: 5px; }
+
+.term-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.term-card:hover { border-color: var(--border2); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+.term-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  cursor: pointer;
+  user-select: none;
+  gap: 12px;
+}
+
+.term-left { flex: 1; }
+
+.term-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.term-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+  letter-spacing: .02em;
+}
+
+.term-toggle {
+  width: 24px; height: 24px;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--muted);
+  transition: all .2s;
+  background: var(--bg);
+}
+
+.term-card.open .term-toggle {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: rotate(45deg);
+  background: var(--c-hermeneutica-bg);
+}
+
+.term-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease;
+}
+
+.term-body-inner {
+  border-top: 1px solid var(--faint);
+  padding: 14px 18px 16px;
+}
+
+.term-def {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.75;
+  opacity: .9;
+}
+
+.term-note {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: var(--bg3);
+  border-left: 2px solid var(--faint);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.term-note strong { color: var(--text); font-weight: 500; }
+
+.term-example {
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: var(--c-hermeneutica-bg);
+  border-left: 2px solid var(--c-hermeneutica-b);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.65;
+  font-style: italic;
+}
+
+.term-example strong { color: var(--accent); font-style: normal; font-weight: 500; }
+
+.no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--muted);
+  font-family: var(--font-display);
+  font-style: italic;
+}
+
+footer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  letter-spacing: .04em;
+  background: var(--bg2);
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 3px; }
+
+@media(max-width:600px){
+  header,.controls,main,footer { padding-left:1.25rem;padding-right:1.25rem; }
+  h1 { font-size: 1.9rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <p class="header-tag">Estudio Bíblico y Teológico — Glosario Personal</p>
+  <h1>Glosario de <em>Teología</em></h1>
+  <p class="subtitle">Hermenéutica · Teología sistemática · Escatología · Historia · Filosofía · Ramas</p>
+  <div class="verse">
+    "Procura con diligencia presentarte a Dios aprobado, como obrero que no tiene de qué avergonzarse, que usa bien la palabra de verdad."
+    <cite>2 Timoteo 2:15 — RVR60</cite>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Buscar término…" oninput="renderAll()">
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Categoría:</span>
+    <div id="filters"></div>
+  </div>
+</div>
+
+<main>
+  <p class="count-bar" id="countBar"></p>
+  <div id="output"></div>
+</main>
+
+<footer>
+  <span>Glosario Teológico Personal — Reforma Bautista</span>
+  <span id="ts"></span>
+</footer>
+
+<script>
+const DATA = [
+  {
+    cat: "hermeneutica",
+    label: "Hermenéutica e Interpretación",
+    terms: [
+      {
+        es: "Hermenéutica",
+        sub: "Del griego hermeneuein — interpretar",
+        def: "Ciencia y arte de la interpretación de textos, especialmente de las Escrituras. Establece los principios y métodos para entender correctamente lo que el autor original quiso comunicar.",
+        note: "Distinción clave: exégesis es sacar el significado del texto (correcto); eiségesis es meter el significado del intérprete al texto (error).",
+        example: "Aplicar hermenéutica significa preguntarse: ¿qué quiso decir Pablo cuando escribió esto a los filipenses en el siglo I, en su contexto histórico y gramatical?"
+      },
+      {
+        es: "Exégesis",
+        sub: "Del griego ex — fuera + hegeomai — guiar",
+        def: "Proceso de extraer el significado original de un texto bíblico mediante el análisis gramatical, histórico y contextual. Es el método correcto de interpretación.",
+        note: "Se opone a la eiségesis. Un buen exégeta pregunta: '¿qué dice el texto?' antes de preguntar '¿qué me dice a mí?'",
+        example: "Al estudiar Filipenses 4:6, el exégeta analiza el tiempo verbal del imperativo griego 'merimnáō' (presente activo) para entender que Pablo ordena dejar de preocuparse continuamente."
+      },
+      {
+        es: "Antropomorfismo",
+        sub: "Del griego anthropos — hombre + morphe — forma",
+        def: "Figura literaria mediante la cual se atribuyen características o emociones humanas a Dios para hacerlo comprensible al lector. No implica que Dios tenga cuerpo físico.",
+        note: "Fundamental para interpretar pasajes como 'el brazo del Señor', 'los ojos de Dios', o 'Dios se arrepintió'. Son lenguaje acomodado, no descripción literal.",
+        example: "Éxodo 33:11 dice que Dios hablaba con Moisés 'cara a cara'. El antropomorfismo nos indica que describe la intimidad de la relación, no una forma física de Dios."
+      },
+      {
+        es: "Antítesis",
+        sub: "Del griego anti — opuesto + thesis — posición",
+        def: "Figura retórica que contrasta dos ideas opuestas para resaltar una verdad. Muy usada en Proverbios y en el Sermón del Monte ('habéis oído… pero yo os digo').",
+        note: "No confundir con contradicción. La antítesis es un recurso literario intencional que clarifica por contraste.",
+        example: "Proverbios 10:1: 'El hijo sabio alegra al padre, pero el hijo necio es tristeza de su madre.' Contraste intencional que subraya la sabiduría como valor."
+      },
+      {
+        es: "Alegoría",
+        sub: "Método interpretativo",
+        def: "Método que interpreta un texto bíblico como si su sentido literal fuera solo una cubierta para un significado espiritual oculto y más profundo. Fue usado extensamente por Orígenes y la escuela alejandrina.",
+        note: "La Reforma protestante rechazó el exceso alegórico y recuperó el sentido literal-gramatical-histórico. No confundir con parábola (que sí es un género literario intencional del texto).",
+        example: "Orígenes interpretó la posada en la parábola del buen samaritano como la iglesia, y los dos denarios como el Padre y el Hijo. La hermenéutica reformada rechaza este tipo de interpretación sin base textual."
+      },
+      {
+        es: "Tipología",
+        sub: "Hermenéutica bíblica",
+        def: "Método legítimo de interpretación que identifica personas, eventos o instituciones del Antiguo Testamento (tipos) que prefiguran realidades más completas en el Nuevo Testamento (antitipo).",
+        note: "A diferencia de la alegoría, la tipología requiere que el NT establezca la conexión. Es un método hermenéutico reconocido por la Reforma.",
+        example: "El cordero pascual (Éxodo 12) es tipo de Cristo (1 Corintios 5:7). El tabernáculo es tipo del cuerpo de Cristo (Juan 1:14). El propio NT establece estas conexiones."
+      },
+    ]
+  },
+  {
+    cat: "filosofia",
+    label: "Filosofía y Cosmovisión",
+    terms: [
+      {
+        es: "Nihilismo",
+        sub: "Del latín nihil — nada",
+        def: "Posición filosófica que niega la existencia de valores objetivos, propósito, verdad o significado en la existencia humana. En su forma más radical, niega que la realidad tenga sentido.",
+        note: "El nihilismo es la consecuencia lógica del ateísmo materialista llevado a sus conclusiones finales. La cosmovisión bíblica lo refuta porque el hombre es imagen de Dios y la historia tiene un telos.",
+        example: "Nietzsche anunció que 'Dios ha muerto' y describió las consecuencias: sin Dios no hay valores absolutos, solo voluntad de poder. Esto es nihilismo en acción."
+      },
+      {
+        es: "Entropía",
+        sub: "Del griego en — dentro + tropē — transformación",
+        def: "En física, tendencia natural de los sistemas a pasar del orden al desorden. En teología, se usa para apuntar a la maldición del Génesis (Romanos 8:20-22) como explicación de la degradación observable del universo.",
+        note: "La Segunda Ley de la Termodinámica (todo sistema tiende al desorden) es coherente con la narrativa bíblica de la caída, y desafía los modelos evolutivos que postulan progreso natural espontáneo.",
+        example: "Un vaso que se rompe nunca se reensambla solo. Las estrellas se apagan. Los organismos envejecen y mueren. La entropía apunta a un universo que tuvo un comienzo ordenado y se degrada: coherente con Génesis 3."
+      },
+      {
+        es: "Teísmo",
+        sub: "Del griego theos — Dios",
+        def: "Posición filosófico-teológica que afirma la existencia de un Dios personal, creador y sustentador del universo, que se revela y que interviene en la historia.",
+        note: "Distinguir: deísmo (Dios existe pero no interviene), panteísmo (Dios es todo), panenteísmo (Dios contiene el universo). El teísmo cristiano añade la Trinidad y la encarnación.",
+        example: "El teísmo cristiano no solo afirma que Dios existe (como el deísta), sino que ese Dios habló en Sinaí, se encarnó en Jesús y continúa gobernando providencialmente la historia."
+      },
+      {
+        es: "Sojuzgar",
+        sub: "Génesis 1:28 — Mandato cultural",
+        def: "Término del mandato cultural dado a Adán (Génesis 1:28): 'llenad la tierra y sojuzgadla'. Significa ejercer dominio responsable y administración fiel sobre la creación como mayordomos de Dios.",
+        note: "No implica explotación sino administración fiel. El hombre como imagen de Dios (imago Dei) ejerce un dominio delegado, no absoluto. La caída corrompió pero no eliminó este mandato.",
+        example: "Cultivar la tierra, desarrollar la ciencia, gobernar con justicia, crear arte — todo esto es cumplir el mandato de sojuzgar. La ciencia moderna nació en parte de esta cosmovisión."
+      },
+    ]
+  },
+  {
+    cat: "teologia",
+    label: "Teología Sistemática",
+    terms: [
+      {
+        es: "Creacionismo bíblico",
+        sub: "Cosmología teológica",
+        def: "Posición que afirma que Dios creó el universo de la nada (ex nihilo) tal como lo revelan las Escrituras, específicamente Génesis 1-2. Dentro del creacionismo hay distintas posiciones sobre el tiempo y el método.",
+        note: "Posiciones principales: Tierra Joven (días literales de 24h), Tierra Antigua (días como épocas), Marco Literario (Génesis como estructura literaria, no cronológica). Todas comparten la creación ex nihilo por un Dios personal.",
+        example: "El creacionismo bíblico se distingue del materialismo (el universo se hizo solo) y del teísmo evolutivo (Dios usó la evolución). Afirma que el relato de Génesis revela al Creador, aunque los detalles del 'cómo' admiten debate."
+      },
+      {
+        es: "Teología pactual",
+        sub: "Covenant Theology",
+        def: "Sistema hermenéutico y teológico que interpreta toda la historia bíblica a través de tres pactos principales: el Pacto de Redención (entre las personas de la Trinidad), el Pacto de Obras (con Adán) y el Pacto de Gracia (con los elegidos en Cristo).",
+        note: "Es el sistema hermenéutico de la Reforma y de las confesiones protestantes (Westminster, 1689). Se opone al dispensacionalismo. Ve continuidad fundamental entre Israel y la iglesia.",
+        example: "En la teología pactual, el bautismo de los bebés (en el paidobautismo) o la membresía de pacto de los hijos de creyentes (en el bautismo de creyentes) se fundamenta en la continuidad del Pacto de Gracia desde Abraham."
+      },
+      {
+        es: "Evangélico confesional",
+        sub: "Identidad eclesiástica",
+        def: "Cristiano protestante que se identifica con las grandes confesiones de fe históricas de la Reforma (Westminster, 1689, Heidelberg, etc.) y las considera expresiones fieles de la doctrina bíblica.",
+        note: "Distinto del evangélico genérico (no confesional) o del fundamentalista separatista. El confesional valora la tradición teológica sin elevarla al nivel de las Escrituras.",
+        example: "Un bautista confesional suscribe la Confesión de Fe Bautista de 1689, que define su eclesiología, soteriología y escatología, en contraste con un bautista independiente sin confesión formal."
+      },
+      {
+        es: "Calvinismo",
+        sub: "También: Teología Reformada",
+        def: "Sistema teológico derivado de la Reforma del siglo XVI (Juan Calvino, Zuinglio) que enfatiza la soberanía absoluta de Dios en la salvación. Resumido en los cinco puntos del TULIP.",
+        note: "TULIP: Depravación Total, Elección Incondicional, Expiación Limitada, Gracia Irresistible, Perseverancia de los Santos. Es el sistema doctrinal de la Confesión de Westminster y la Confesión Bautista de 1689.",
+        example: "La afirmación calvinista de que Dios elige incondicionalmente a sus elegidos (no por mérito previsto) se fundamenta en Efesios 1:4-5: 'nos escogió en él antes de la fundación del mundo'."
+      },
+      {
+        es: "Eclesiología",
+        sub: "Del griego ekklesia — iglesia + logos — estudio",
+        def: "Rama de la teología sistemática que estudia la naturaleza, misión, gobierno y sacramentos de la iglesia. Responde preguntas como: ¿qué es la iglesia? ¿quién la gobierna? ¿cuáles son sus marcas?",
+        note: "Las marcas de la verdadera iglesia según la Reforma: predicación fiel de la Palabra, correcta administración de los sacramentos y disciplina eclesiástica.",
+        example: "La discusión sobre si una iglesia debe ser gobernada por un pastor solo (episcopalismo), por ancianos (presbiterianismo) o por la congregación (congregacionalismo) es una pregunta eclesiológica."
+      },
+      {
+        es: "Soteriología",
+        sub: "Del griego soteria — salvación + logos — estudio",
+        def: "Rama de la teología sistemática que estudia la doctrina de la salvación: cómo Dios salva a los pecadores, el orden de salvación (ordo salutis), la justificación, santificación y glorificación.",
+        note: "El ordo salutis reformado incluye: llamamiento eficaz, regeneración, fe y arrepentimiento, justificación, adopción, santificación, perseverancia y glorificación.",
+        example: "El debate entre catolicismo y protestantismo en la Reforma era principalmente soteriológico: ¿se justifica el pecador por fe sola (sola fide) o por fe más obras?"
+      },
+      {
+        es: "Imago Dei",
+        sub: "Latín: imagen de Dios",
+        def: "Doctrina bíblica (Génesis 1:26-27) que afirma que el ser humano fue creado a imagen y semejanza de Dios, lo que le confiere dignidad única, racionalidad, moralidad y capacidad de relación con Dios.",
+        note: "La caída distorsionó pero no destruyó la imagen. En Cristo, la imagen es restaurada progresivamente (Colosenses 3:10). Fundamenta la ética cristiana y el valor de toda vida humana.",
+        example: "La prohibición de matar en Génesis 9:6 se fundamenta en el Imago Dei: 'porque a imagen de Dios es hecho el hombre'. Por eso el aborto y la eutanasia son problemas teológicos, no solo políticos."
+      },
+      {
+        es: "Sola Scriptura",
+        sub: "Latín: solo la Escritura",
+        def: "Principio fundamental de la Reforma Protestante que afirma que la Biblia es la única autoridad suprema e infalible en materia de fe y práctica. No niega la tradición, sino que la subordina a la Escritura.",
+        note: "No confundir con nuda Scriptura (la Biblia sola, ignorando toda tradición). Sola Scriptura reconoce el valor de los credos y confesiones como subordinados a las Escrituras.",
+        example: "Cuando Lutero fue juzgado en la Dieta de Worms (1521), respondió: 'mi conciencia está cautiva a la Palabra de Dios... no puedo retractarme'. Eso es Sola Scriptura en acción."
+      },
+    ]
+  },
+  {
+    cat: "escatologia",
+    label: "Escatología y Sistemas Proféticos",
+    terms: [
+      {
+        es: "Escatología",
+        sub: "Del griego eschatos — último + logos — estudio",
+        def: "Rama de la teología sistemática que estudia las cosas últimas: la muerte, el juicio, la segunda venida de Cristo, la resurrección y el estado eterno.",
+        note: "Subdivisiones: escatología individual (muerte, juicio particular) y escatología cósmica (resurrección, juicio final, nueva creación). No es solo 'fin del mundo' sino la consumación del plan redentor.",
+        example: "El debate sobre si el milenio de Apocalipsis 20 es literal (premilenarismo) o simbólico (amilenarismo) es una discusión escatológica que ha dividido a teólogos reformados fieles."
+      },
+      {
+        es: "Preterismo",
+        sub: "Del latín praeter — pasado",
+        def: "Posición escatológica que interpreta la mayoría o totalidad de las profecías apocalípticas (incluyendo Apocalipsis y Mateo 24) como ya cumplidas en el siglo I, especialmente en la destrucción de Jerusalén en el año 70 d.C.",
+        note: "Preterismo parcial: algunas profecías cumplidas en el 70 d.C., pero la segunda venida y resurrección son aún futuras. Preterismo pleno: todo cumplido — considerado herético por negar la segunda venida literal.",
+        example: "El preterista interpreta 'esta generación no pasará hasta que todo esto acontezca' (Mateo 24:34) como una referencia directa a los judíos del siglo I y la destrucción del templo en el 70 d.C."
+      },
+      {
+        es: "Futurismo",
+        sub: "Escatología profética",
+        def: "Posición que interpreta las profecías apocalípticas (especialmente Daniel y Apocalipsis) como referencias a eventos que ocurrirán en el futuro cercano al fin de los tiempos, no en el pasado.",
+        note: "Es la posición predominante en el evangelicalismo moderno. Se subdivide en premilenarismo, postmlenarismo y amilenarismo según cómo interpreta el reino de los mil años.",
+        example: "El futurismo interpreta la gran tribulación de Apocalipsis 7 como un período literal futuro de sufrimiento intenso, no como una descripción de persecuciones ya ocurridas."
+      },
+      {
+        es: "Dispensacionalismo clásico",
+        sub: "Sistema hermenéutico-escatológico",
+        def: "Sistema teológico que divide la historia bíblica en períodos distintos (dispensaciones) en los que Dios trata con la humanidad bajo diferentes principios. Mantiene una distinción estricta entre Israel y la iglesia.",
+        note: "El dispensacionalismo clásico (Darby, Scofield) se distingue del revisado (Ryrie) y del progresivo (Blaising). La teología pactual reformada lo rechaza por su hermenéutica y por separar Israel de la iglesia.",
+        example: "Un dispensacionalista clásico afirma que las promesas territoriales a Israel en el AT deben cumplirse literalmente con el estado judío moderno, y que la iglesia es un 'paréntesis' en el plan de Dios para Israel."
+      },
+      {
+        es: "Renfanismo",
+        sub: "Dispensacionalismo popular / pop",
+        def: "Término informal para el dispensacionalismo de nivel popular, divulgado masivamente por predicadores televisivos, libros de profecía y series como 'Dejados Atrás'. Simplifica y deforma el dispensacionalismo académico.",
+        note: "Características: énfasis excesivo en el rapto secreto, especulación sobre fechas, identificación de figuras políticas con el Anticristo, sensacionalismo profético. Teológicamente superficial.",
+        example: "La predicción de que la Unión Europea sería el Imperio Romano revivido, o identificar al Papa o a líderes políticos específicos con el Anticristo, son ejemplos de Renfanismo."
+      },
+      {
+        es: "Amilenarismo",
+        sub: "Escatología reformada",
+        def: "Posición escatológica que interpreta el 'milenio' de Apocalipsis 20 de forma simbólica como el período actual entre la primera y segunda venida de Cristo. Cristo reina ya espiritualmente.",
+        note: "Es la posición histórica de Agustín, Calvino, la Confesión de Westminster y la mayoría de la tradición reformada. No niega un reino futuro, sino que lo ve como la nueva creación, no un reino terrenal de 1000 años.",
+        example: "El amilenarista interpreta que Satanás está 'atado' (Apocalipsis 20:2) en el sentido de que no puede impedir la misión global de la iglesia, no que esté completamente inactivo."
+      },
+    ]
+  },
+  {
+    cat: "historia",
+    label: "Historia y Personajes",
+    terms: [
+      {
+        es: "Roberto Belarmino",
+        sub: "1542–1621 · Cardenal jesuita",
+        def: "Cardenal y teólogo jesuita italiano, principal polemista católico contra la Reforma Protestante. Desarrolló la doctrina de la potestad papal indirecta y fue canonizado en 1930.",
+        note: "Su relevancia escatológica: fue Belarmino quien promovió el futurismo de Francisco Ribera como respuesta estratégica a los reformadores que identificaban al Papa con el Anticristo.",
+        example: "Cuando Lutero y otros reformadores señalaban al papado como el Anticristo profetizado, fue Belarmino quien orquestó la respuesta teológica jesuita, incluyendo el futurismo de Ribera."
+      },
+      {
+        es: "Francisco Ribera",
+        sub: "1537–1591 · Jesuita español",
+        def: "Sacerdote jesuita español que desarrolló el sistema futurista de interpretación profética alrededor de 1590, como respuesta a los reformadores protestantes que identificaban al papado con el Anticristo de Apocalipsis.",
+        note: "Su sistema colocó el cumplimiento del Anticristo en un futuro lejano (los últimos 3.5 años de la historia), alejando así la aplicación del pasaje del papado romano.",
+        example: "Ribera propuso que el Anticristo sería un individuo futuro que negaría a Cristo, se proclamaría Dios y reconstruiría el templo de Jerusalén — interpretación que hoy domina el evangelicalismo popular."
+      },
+      {
+        es: "John Nelson Darby",
+        sub: "1800–1882 · Fundador del dispensacionalismo",
+        def: "Teólogo irlandés, ex-sacerdote anglicano y líder de los Hermanos de Plymouth. Sistematizó el dispensacionalismo moderno y popularizó la doctrina del rapto secreto pretribulacional como evento separado de la segunda venida.",
+        note: "Su influencia en el evangelicalismo anglosajón fue inmensa aunque indirecta. La mayoría de quienes creen en el rapto pretribulacional no saben que esta doctrina tiene apenas 200 años de historia.",
+        example: "Antes de Darby (siglo XIX), ningún teólogo cristiano en toda la historia de la iglesia había enseñado un rapto secreto pretribulacional. Es una doctrina históricamente reciente."
+      },
+      {
+        es: "Biblia de Scofield",
+        sub: "Cyrus Ingerson Scofield · 1909",
+        def: "Biblia de referencia publicada por Cyrus Scofield en 1909, con notas al margen que sistematizan el dispensacionalismo de Darby. Fue el vehículo principal de popularización del dispensacionalismo en Norteamérica.",
+        note: "Las notas de Scofield tienen el mismo peso tipográfico que el texto bíblico, lo que llevó a muchos lectores a confundir los comentarios de Scofield con la autoridad de la Escritura misma.",
+        example: "Millones de evangélicos norteamericanos del siglo XX crecieron con la Biblia de Scofield y absorbieron el dispensacionalismo como si fuera la posición histórica de la iglesia, cuando en realidad es una innovación del siglo XIX."
+      },
+      {
+        es: "Martín Lutero",
+        sub: "1483–1546 · Reforma Protestante",
+        def: "Monje agustino alemán cuya publicación de las 95 Tesis en 1517 inició la Reforma Protestante. Recuperó la doctrina de la justificación por fe sola y tradujo la Biblia al alemán vernáculo.",
+        note: "Las cinco solas de la Reforma (Sola Scriptura, Sola Fide, Sola Gratia, Solus Christus, Soli Deo Gloria) sintetizan los principios doctrinales que Lutero y la Reforma recuperaron.",
+        example: "En la Dieta de Worms (1521), Lutero se negó a retractarse ante el Emperador diciendo: 'Aquí estoy, no puedo hacer otra cosa.' Este momento marcó el punto de no retorno de la Reforma."
+      },
+      {
+        es: "Juan Calvino",
+        sub: "1509–1564 · Reforma en Ginebra",
+        def: "Teólogo y reformador francés radicado en Ginebra. Autor de las Institutos de la Religión Cristiana, la obra sistemática más influyente de la Reforma. Desarrolló la teología reformada y el gobierno presbiteriano.",
+        note: "El calvinismo lleva su nombre pero él prefería llamarlo simplemente 'la doctrina bíblica'. Sus Institutos (1536, edición final 1559) siguen siendo una de las obras teológicas más leídas.",
+        example: "La doctrina de la doble predestinación (Dios elige a unos para salvación y determina que otros permanezcan en condenación) es una de las posiciones más controversiales asociadas al pensamiento de Calvino."
+      },
+    ]
+  },
+  {
+    cat: "ramas",
+    label: "Ramas de la Teología",
+    terms: [
+      {
+        es: "Teología Bíblica",
+        sub: "Rama teológica",
+        def: "Disciplina que estudia el desarrollo progresivo de la revelación divina a lo largo de la historia bíblica, siguiendo el hilo redentor desde el Génesis hasta el Apocalipsis.",
+        note: "Se distingue de la teología sistemática (que organiza temas doctrinales) por seguir el orden canónico e histórico del texto. Pregunta: ¿cómo se desarrolla la revelación a lo largo del tiempo?",
+        example: "La teología bíblica rastrea cómo el concepto de 'simiente' avanza de Génesis 3:15 (simiente de la mujer), pasa por Abraham (Génesis 12), David (2 Samuel 7) y culmina en Cristo (Gálatas 3:16)."
+      },
+      {
+        es: "Teología Histórica",
+        sub: "Rama teológica",
+        def: "Disciplina que estudia cómo la iglesia ha interpretado y desarrollado la doctrina cristiana a lo largo de la historia, desde los padres apostólicos hasta el presente.",
+        note: "Herramienta indispensable para entender por qué creemos lo que creemos y cómo llegaron las doctrinas a su forma actual. Previene el error de pensar que nuestra interpretación es la única posible.",
+        example: "Estudiar el Concilio de Nicea (325 d.C.) — donde se afirmó la plena divinidad de Cristo contra el arrianismo — es hacer teología histórica."
+      },
+      {
+        es: "Teología Sistemática",
+        sub: "Rama teológica",
+        def: "Disciplina que organiza las enseñanzas bíblicas en categorías coherentes y lógicas: Bibliología, Teología propia, Cristología, Pneumatología, Antropología, Soteriología, Eclesiología y Escatología.",
+        note: "No impone un sistema ajeno al texto, sino que organiza lo que la Biblia enseña de forma temática. Las grandes obras son la Suma Teológica (Aquino), los Institutos (Calvino) y la Teología Sistemática (Berkhof).",
+        example: "Cuando alguien pregunta '¿qué enseña la Biblia sobre el Espíritu Santo?' y se recopilan y organizan todos los pasajes relevantes para dar una respuesta coherente, eso es teología sistemática (Pneumatología)."
+      },
+      {
+        es: "Bibliología",
+        sub: "Del griego biblos — libro",
+        def: "Rama de la teología sistemática que estudia la naturaleza, inspiración, iluminación, inerrancia, canon e interpretación de las Escrituras.",
+        note: "Preguntas bibliológicas: ¿qué significa que la Biblia es inspirada? ¿Es inerrable? ¿Cómo se formó el canon? ¿Cuál es la diferencia entre inspiración e iluminación?",
+        example: "2 Timoteo 3:16 ('toda la Escritura es inspirada por Dios') es el texto base de la bibliología. El debate sobre si 'toda' incluye también el proceso de escritura o solo el producto final es bibliológico."
+      },
+      {
+        es: "Cristología",
+        sub: "Del griego Christos + logos",
+        def: "Rama de la teología sistemática que estudia la persona y obra de Jesucristo: su preexistencia, encarnación, naturalezas divina y humana, estados de humillación y exaltación, y obra redentora.",
+        note: "Los grandes debates cristológicos se resolvieron en los concilios ecuménicos: Nicea (325), Éfeso (431) y Calcedonia (451). El Credo de Calcedón define a Cristo como una persona con dos naturalezas.",
+        example: "La afirmación de que Jesús es 'verdaderamente Dios y verdaderamente hombre' en una sola persona — sin mezcla, sin confusión, sin división — es la definición cristológica de Calcedonia (451 d.C.)."
+      },
+      {
+        es: "Pneumatología",
+        sub: "Del griego pneuma — espíritu",
+        def: "Rama de la teología sistemática que estudia la persona y obra del Espíritu Santo: su divinidad, personalidad, funciones en la creación, redención, regeneración, santificación y dones.",
+        note: "El debate entre cesacionismo (los dones milagrosos cesaron con los apóstoles) y continuacionismo (todos los dones continúan hoy) es un debate pneumatológico central en el evangelicalismo.",
+        example: "Juan 16:8 dice que el Espíritu 'convencerá al mundo de pecado, de justicia y de juicio'. Entender cómo hace eso — a través de la Palabra predicada — es una pregunta pneumatológica con consecuencias prácticas para la evangelización."
+      },
+    ]
+  }
+];
+
+const ALL_CATS = ["Todos", ...DATA.map(d => d.label)];
+let activeFilter = "Todos";
+let openCards = new Set();
+
+function buildFilters() {
+  document.getElementById("filters").innerHTML = ALL_CATS.map(c =>
+    `<button class="chip ${c === activeFilter ? 'active' : ''}" onclick="setFilter('${c}')">${c}</button>`
+  ).join("");
+}
+
+function setFilter(cat) {
+  activeFilter = cat;
+  buildFilters();
+  renderAll();
+}
+
+function toggle(id) {
+  if (openCards.has(id)) openCards.delete(id);
+  else openCards.add(id);
+  const card = document.getElementById("card-" + id);
+  const body = document.getElementById("body-" + id);
+  if (card && body) {
+    card.classList.toggle("open", openCards.has(id));
+    body.style.maxHeight = openCards.has(id) ? body.scrollHeight + 60 + "px" : "0";
+  }
+}
+
+function renderAll() {
+  const q = document.getElementById("searchInput").value.toLowerCase().trim();
+  let total = 0;
+  let html = "";
+
+  for (const cat of DATA) {
+    if (activeFilter !== "Todos" && activeFilter !== cat.label) continue;
+    const terms = cat.terms.filter(t =>
+      !q || t.es.toLowerCase().includes(q) || (t.sub||"").toLowerCase().includes(q) || t.def.toLowerCase().includes(q)
+    );
+    if (!terms.length) continue;
+    total += terms.length;
+
+    html += `<div class="category-block">
+      <div class="cat-label ${cat.cat}">${cat.label}</div>
+      <div class="term-grid">`;
+
+    for (const t of terms) {
+      const id = t.es.replace(/[^a-z0-9]/gi, "-");
+      const isOpen = openCards.has(id);
+      html += `
+        <div class="term-card ${isOpen ? 'open' : ''}" id="card-${id}">
+          <div class="term-header" onclick="toggle('${id}')">
+            <div class="term-left">
+              <div class="term-name">${t.es}</div>
+              ${t.sub ? `<div class="term-sub">${t.sub}</div>` : ""}
+            </div>
+            <div class="term-toggle">+</div>
+          </div>
+          <div class="term-body" id="body-${id}" style="max-height:${isOpen ? '600px' : '0'}">
+            <div class="term-body-inner">
+              <p class="term-def">${t.def}</p>
+              ${t.note ? `<div class="term-note"><strong>Nota:</strong> ${t.note}</div>` : ""}
+              ${t.example ? `<div class="term-example"><strong>Ejemplo:</strong> ${t.example}</div>` : ""}
+            </div>
+          </div>
+        </div>`;
+    }
+    html += `</div></div>`;
+  }
+
+  if (!html) {
+    html = `<div class="no-results">No se encontraron términos para "<em>${q}</em>"</div>`;
+  }
+
+  document.getElementById("output").innerHTML = html;
+  const count = DATA.reduce((a,c) => a + c.terms.length, 0);
+  document.getElementById("countBar").textContent = `${total} término${total !== 1 ? 's' : ''} · ${activeFilter} · ${count} en total`;
+}
+
+document.getElementById("ts").textContent = "Actualizado " + new Date().toLocaleDateString("es-MX", {year:"numeric",month:"long"});
+buildFilters();
+renderAll();
+</script>
+</body>
+</html>
