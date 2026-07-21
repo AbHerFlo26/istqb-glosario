@@ -749,6 +749,21 @@ footer {
   .stats-row { grid-template-columns: repeat(3,1fr); }
   .result-grid { grid-template-columns: repeat(3,1fr); }
 }
+/* Mejora para la transición del glosario */
+.term-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.term-body-inner {
+  padding: 0 18px 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+/* Asegurar que el contenido interno no cause desbordamiento */
+.term-body-inner > *:last-child {
+  margin-bottom: 0;
+}
 </style>
 </head>
 <body>
@@ -1288,6 +1303,7 @@ let modeVal = "random";
 let searchVal = "";
 
 // ─── RENDER ────────────────────────────────────────────────────────────────
+// En renderControls, dentro del bloque de glosario, después del input:
 function renderControls() {
   const container = document.getElementById("controlsContainer");
   if (currentMode === 'glosario') {
@@ -1297,6 +1313,7 @@ function renderControls() {
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           <input type="text" id="glosarioSearch" placeholder="Buscar término en español o inglés…" oninput="renderGlosario()">
         </div>
+        <button class="btn" onclick="toggleAllTerms()" style="font-size:11px;padding:6px 14px;">📂 Expandir todo</button>
       </div>
       <div class="filter-row" id="glosarioFilters"></div>
     `;
@@ -1320,6 +1337,49 @@ function renderControls() {
     buildPreguntasFilters();
   }
 }
+
+function toggleAllTerms() {
+  // Obtener todos los términos del glosario
+  const allIds = [];
+  for (const cat of DATA) {
+    for (const t of cat.terms) {
+      const id = t.es.replace(/[^a-z0-9]/gi, "-").toLowerCase();
+      allIds.push(id);
+    }
+  }
+  
+  // Si hay términos abiertos, cerrar todos; si no, abrir todos
+  const anyOpen = allIds.some(id => openCards.has(id));
+  
+  if (anyOpen) {
+    // Cerrar todos
+    allIds.forEach(id => {
+      openCards.delete(id);
+      const card = document.getElementById("gcard-" + id);
+      const body = document.getElementById("gbody-" + id);
+      if (card) card.classList.remove("open");
+      if (body) body.style.maxHeight = '0px';
+    });
+  } else {
+    // Abrir todos (uno por uno para calcular alturas)
+    allIds.forEach(id => {
+      openCards.add(id);
+      const card = document.getElementById("gcard-" + id);
+      const body = document.getElementById("gbody-" + id);
+      if (card) card.classList.add("open");
+      if (body) {
+        const inner = body.querySelector('.term-body-inner');
+        if (inner) {
+          body.style.maxHeight = (inner.scrollHeight + 20) + 'px';
+        } else {
+          body.style.maxHeight = '500px';
+        }
+      }
+    });
+  }
+}
+
+
 
 function buildGlosarioFilters() {
   const el = document.getElementById("glosarioFilters");
@@ -1376,8 +1436,10 @@ function renderGlosario() {
       <div class="term-grid">`;
 
     for (const t of terms) {
-      const id = t.es.replace(/[^a-z0-9]/gi, "-");
+      // Crear un ID único basado en el término
+      const id = t.es.replace(/[^a-z0-9]/gi, "-").toLowerCase();
       const isOpen = openCards.has(id);
+      
       html += `
         <div class="term-card ${isOpen ? 'open' : ''}" id="gcard-${id}">
           <div class="term-header" onclick="toggleTerm('${id}')">
@@ -1387,7 +1449,7 @@ function renderGlosario() {
             </div>
             <div class="term-toggle">+</div>
           </div>
-          <div class="term-body" id="gbody-${id}" style="max-height:${isOpen ? '500px' : '0'}">
+          <div class="term-body" id="gbody-${id}" style="max-height: ${isOpen ? '500px' : '0'}">
             <div class="term-body-inner">
               <p class="term-def">${t.def}</p>
               ${t.note ? `<div class="term-note"><strong>Nota ISTQB:</strong> ${t.note}</div>` : ""}
@@ -1407,6 +1469,63 @@ function renderGlosario() {
     <p class="count-bar">${total} término${total !== 1 ? 's' : ''} · ${filter}</p>
     ${html}
   `;
+}
+
+// Función para abrir un término específico (útil para búsquedas)
+function openTerm(id) {
+  if (!openCards.has(id)) {
+    openCards.add(id);
+    const card = document.getElementById("gcard-" + id);
+    const body = document.getElementById("gbody-" + id);
+    if (card && body) {
+      card.classList.add("open");
+      const inner = body.querySelector('.term-body-inner');
+      if (inner) {
+        body.style.maxHeight = (inner.scrollHeight + 20) + 'px';
+      } else {
+        body.style.maxHeight = '500px';
+      }
+    }
+  }
+}
+
+
+// ─── FUNCIONES DEL GLOSARIO ──────────────────────────────────────────────
+function toggleTerm(id) {
+  // Alternar el estado en el Set
+  if (openCards.has(id)) {
+    openCards.delete(id);
+  } else {
+    openCards.add(id);
+  }
+  
+  // Actualizar la UI
+  const card = document.getElementById("gcard-" + id);
+  const body = document.getElementById("gbody-" + id);
+  
+  if (card && body) {
+    // Alternar la clase 'open'
+    card.classList.toggle("open", openCards.has(id));
+    
+    // Ajustar la altura máxima para la animación
+    if (openCards.has(id)) {
+      // Necesitamos calcular la altura real del contenido
+      const inner = body.querySelector('.term-body-inner');
+      if (inner) {
+        // Forzar un reflow para obtener la altura correcta
+        body.style.maxHeight = '0px';
+        // Pequeño retraso para que el navegador procese el cambio
+        requestAnimationFrame(() => {
+          const height = inner.scrollHeight + 20; // +20 por padding
+          body.style.maxHeight = height + 'px';
+        });
+      } else {
+        body.style.maxHeight = '500px';
+      }
+    } else {
+      body.style.maxHeight = '0px';
+    }
+  }
 }
 
 // ─── REPASO RÁPIDO MEJORADO ──────────────────────────────────────────────
