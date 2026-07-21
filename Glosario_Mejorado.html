@@ -864,7 +864,6 @@ const CATS = {artefactos:"Artefactos",actividades:"Actividades",tipos:"Tipos/Niv
 const DIFFS = {facil:"Fácil",medio:"Medio",dificil:"Difícil"};
 
 const ALL_Q = [
-  // ── CONCEPTOS FUNDAMENTALES ──────────────────────────────────────────────
   {id:1,cat:"conceptos",diff:"facil",
    q:"Un tester ejecuta un caso de prueba y obtiene un resultado diferente al esperado. ¿Cuál es el término ISTQB correcto para este comportamiento observable del sistema?",
    opts:["Error","Defecto","Fallo","Bug"],ans:2,
@@ -889,8 +888,6 @@ const ALL_Q = [
    q:"El equipo prioriza las pruebas del módulo de pagos por encima del módulo de reportes, argumentando que un fallo en pagos causaría pérdidas económicas directas. ¿Qué enfoque de prueba describe esto?",
    opts:["Prueba exploratoria","Prueba basada en riesgo","Prueba de regresión","Prueba de aceptación"],ans:1,
    exp:"La <b>prueba basada en riesgo</b> prioriza el esfuerzo de prueba según la probabilidad e impacto de los riesgos de producto. Más recursos donde el riesgo combinado (probabilidad × impacto) es mayor."},
-
-  // ── ACTIVIDADES DE PRUEBA ───────────────────────────────────────────────
   {id:7,cat:"actividades",diff:"facil",
    q:"El bug #512 ('el botón de pago no responde en Safari') fue corregido por el desarrollador. ¿Qué tipo de prueba debe ejecutar el QA a continuación?",
    opts:["Prueba de regresión","Prueba de humo","Prueba de confirmación","Prueba de sistema"],ans:2,
@@ -919,8 +916,6 @@ const ALL_Q = [
    q:"El equipo implementa un pipeline de CI/CD que ejecuta automáticamente un conjunto de pruebas después de cada commit. El objetivo es detectar si los nuevos cambios rompen funcionalidades existentes. ¿Qué tipo de prueba automatizada priorizan?",
    opts:["Pruebas de aceptación","Pruebas exploratorias","Pruebas de regresión","Pruebas de cordura"],ans:2,
    exp:"La <b>prueba de regresión</b> es la más adecuada para automatización en CI/CD. Su objetivo de detectar que cambios nuevos no afecten funcionalidad existente la convierte en el candidato ideal para ejecución automática tras cada cambio."},
-
-  // ── ARTEFACTOS DE PRUEBA ────────────────────────────────────────────────
   {id:14,cat:"artefactos",diff:"facil",
    q:"El equipo revisa los requisitos funcionales, las historias de usuario y el diagrama de flujo del proceso para identificar qué aspectos del sistema deben probarse. ¿Cómo se denomina colectivamente esta documentación?",
    opts:["Plan de prueba","Suite de prueba","Base de prueba","Oráculo de prueba"],ans:2,
@@ -949,8 +944,6 @@ const ALL_Q = [
    q:"La base de prueba de un proyecto está compuesta únicamente por conversaciones informales con el cliente, ya que no existe documentación escrita. ¿Es válida esta situación según ISTQB?",
    opts:["No, la base de prueba debe ser siempre documentación formal","Sí, la base de prueba puede ser informal, incluyendo conocimiento de expertos","No, sin documentación formal no se pueden crear casos de prueba","Sí, pero solo para pruebas exploratorias"],ans:1,
    exp:"Según ISTQB, la base de prueba puede ser tanto formal (documentos de requisitos, especificaciones) como informal (conocimiento de expertos, conversaciones con stakeholders). Lo importante es que sirva como fuente para identificar condiciones de prueba."},
-
-  // ── TIPOS Y NIVELES DE PRUEBA ───────────────────────────────────────────
   {id:21,cat:"tipos",diff:"facil",
    q:"Un desarrollador prueba de forma aislada la función <code>calcularDescuento()</code>, usando valores de entrada directos sin invocar la base de datos real. ¿Qué nivel de prueba aplica?",
    opts:["Prueba de integración","Prueba de sistema","Prueba de componente","Prueba de aceptación"],ans:2,
@@ -979,8 +972,6 @@ const ALL_Q = [
    q:"Un sistema de pago procesa una transacción correctamente pero tarda 8 segundos en confirmarla. Los requisitos especifican máximo 2 segundos. ¿Qué tipo de prueba detecta este problema?",
    opts:["Prueba funcional","Prueba de componente","Prueba no funcional","Prueba de integración"],ans:2,
    exp:"La <b>prueba no funcional</b> evalúa características como el rendimiento. Aunque el sistema funciona correctamente (lo cual verificaría la prueba funcional), el incumplimiento del tiempo de respuesta es un problema no funcional."},
-
-  // ── PROCESO DE PRUEBA ───────────────────────────────────────────────────
   {id:28,cat:"proceso",diff:"facil",
    q:"El equipo acuerda no iniciar pruebas hasta que: el ambiente esté disponible, el código esté en el repositorio y el smoke test automático haya pasado. ¿Qué han definido?",
    opts:["Criterio de salida","Plan de prueba","Criterio de entrada","Estrategia de prueba"],ans:2,
@@ -1009,8 +1000,6 @@ const ALL_Q = [
    q:"El equipo de QA reporta que las pruebas están al 85% de casos ejecutados pero los criterios de salida requieren 95%. Sin embargo, la fecha de lanzamiento es en 2 días. ¿Qué debe suceder según las buenas prácticas ISTQB?",
    opts:["Lanzar el producto ya que el 85% es suficiente","Tomar una decisión informada de riesgo con los stakeholders, documentando los riesgos de lanzar sin completar las pruebas","Cancelar el lanzamiento automáticamente","Ignorar los criterios de salida ya que son solo guías"],ans:1,
    exp:"Los criterios de salida son objetivos, pero en la práctica pueden negociarse con los stakeholders. Lo esencial es que la decisión sea <b>informada</b>: los stakeholders deben conocer y aceptar explícitamente los riesgos de lanzar sin cumplir los criterios definidos."},
-
-  // ── PREGUNTAS MIXTAS / ANÁLISIS ─────────────────────────────────────────
   {id:35,cat:"conceptos",diff:"dificil",
    q:"¿Cuál de las siguientes afirmaciones sobre las pruebas exhaustivas es correcta según ISTQB?",
    opts:["Son posibles si se automatiza todo","Son posibles solo para sistemas pequeños","Son generalmente imposibles excepto en casos triviales, por lo que se usan técnicas de priorización","Son el estándar mínimo para sistemas críticos"],ans:2,
@@ -1037,7 +1026,7 @@ const ALL_Q = [
    exp:"Dos principios ISTQB refutan esto: '<b>las pruebas muestran la presencia de defectos, no su ausencia</b>' (nunca se puede probar que no hay defectos) y '<b>la ausencia de errores es una falacia</b>' (encontrar y corregir defectos no garantiza que el sistema satisfaga las necesidades del usuario)."},
 ];
 
-// ─── GUÍA DE REPASO RÁPIDO (MEJORADA) ─────────────────────────────────────
+// ─── GUÍA DE REPASO RÁPIDO ─────────────────────────────────────────────
 const REPASO_DATA = [
   {
     titulo: "Testing: definición y objetivos",
@@ -1287,6 +1276,7 @@ const REPASO_DATA = [
     `
   }
 ];
+
 // ─── ESTADO ────────────────────────────────────────────────────────────────
 let currentMode = 'glosario';
 let openCards = new Set();
@@ -1303,9 +1293,10 @@ let modeVal = "random";
 let searchVal = "";
 
 // ─── RENDER ────────────────────────────────────────────────────────────────
-// En renderControls, dentro del bloque de glosario, después del input:
 function renderControls() {
   const container = document.getElementById("controlsContainer");
+  const hasAnswers = Object.keys(results).length > 0;
+  
   if (currentMode === 'glosario') {
     container.innerHTML = `
       <div class="search-row">
@@ -1318,14 +1309,15 @@ function renderControls() {
       <div class="filter-row" id="glosarioFilters"></div>
     `;
     buildGlosarioFilters();
-  } else {
+  } else if (currentMode === 'preguntas') {
     container.innerHTML = `
       <div class="search-row">
         <div class="search-wrap">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="text" id="preguntasSearch" placeholder="Buscar en enunciados…" oninput="applyPreguntasFilters()">
+          <input type="text" id="preguntasSearch" placeholder="Buscar en enunciados…"
+            oninput="applyPreguntasFilters()" ${hasAnswers ? "disabled" : ""}>
         </div>
-        <select id="modeSelect" onchange="applyPreguntasFilters()">
+        <select id="modeSelect" onchange="applyPreguntasFilters()" ${hasAnswers ? "disabled" : ""}>
           <option value="random">Orden aleatorio</option>
           <option value="seq">Orden secuencial</option>
           <option value="wrong">Solo incorrectas</option>
@@ -1334,52 +1326,12 @@ function renderControls() {
       <div class="filter-row"><span class="filter-label">Categoría:</span><div id="catFiltersPreg"></div></div>
       <div class="filter-row"><span class="filter-label">Dificultad:</span><div id="diffFiltersPreg"></div></div>
     `;
-    buildPreguntasFilters();
-  }
-}
-
-function toggleAllTerms() {
-  // Obtener todos los términos del glosario
-  const allIds = [];
-  for (const cat of DATA) {
-    for (const t of cat.terms) {
-      const id = t.es.replace(/[^a-z0-9]/gi, "-").toLowerCase();
-      allIds.push(id);
-    }
-  }
-  
-  // Si hay términos abiertos, cerrar todos; si no, abrir todos
-  const anyOpen = allIds.some(id => openCards.has(id));
-  
-  if (anyOpen) {
-    // Cerrar todos
-    allIds.forEach(id => {
-      openCards.delete(id);
-      const card = document.getElementById("gcard-" + id);
-      const body = document.getElementById("gbody-" + id);
-      if (card) card.classList.remove("open");
-      if (body) body.style.maxHeight = '0px';
-    });
+    buildPreguntasFilters(hasAnswers);
   } else {
-    // Abrir todos (uno por uno para calcular alturas)
-    allIds.forEach(id => {
-      openCards.add(id);
-      const card = document.getElementById("gcard-" + id);
-      const body = document.getElementById("gbody-" + id);
-      if (card) card.classList.add("open");
-      if (body) {
-        const inner = body.querySelector('.term-body-inner');
-        if (inner) {
-          body.style.maxHeight = (inner.scrollHeight + 20) + 'px';
-        } else {
-          body.style.maxHeight = '500px';
-        }
-      }
-    });
+    // Modo repaso - sin controles
+    container.innerHTML = '';
   }
 }
-
-
 
 function buildGlosarioFilters() {
   const el = document.getElementById("glosarioFilters");
@@ -1391,19 +1343,21 @@ function buildGlosarioFilters() {
   ).join("");
 }
 
-function buildPreguntasFilters() {
+function buildPreguntasFilters(hasAnswers) {
   const catEl = document.getElementById("catFiltersPreg");
   const diffEl = document.getElementById("diffFiltersPreg");
+  const disabled = hasAnswers !== undefined ? hasAnswers : Object.keys(results).length > 0;
+  
   if (catEl) {
     const cats = ["Todos", ...Object.keys(CATS)];
     catEl.innerHTML = cats.map(c =>
-      `<button class="chip ${c === catFilter ? 'active' : ''}" onclick="setCatPreg('${c}')">${c === "Todos" ? "Todas" : CATS[c]}</button>`
+      `<button class="chip ${c === catFilter ? 'active' : ''}" ${disabled ? "disabled" : ""} onclick="setCatPreg('${c}')">${c === "Todos" ? "Todas" : CATS[c]}</button>`
     ).join("");
   }
   if (diffEl) {
     const diffs = ["Todos", ...Object.keys(DIFFS)];
     diffEl.innerHTML = diffs.map(d =>
-      `<button class="chip ${d === diffFilter ? 'active' : ''}" onclick="setDiffPreg('${d}')">${d === "Todos" ? "Todas" : DIFFS[d]}</button>`
+      `<button class="chip ${d === diffFilter ? 'active' : ''}" ${disabled ? "disabled" : ""} onclick="setDiffPreg('${d}')">${d === "Todos" ? "Todas" : DIFFS[d]}</button>`
     ).join("");
   }
 }
@@ -1436,7 +1390,6 @@ function renderGlosario() {
       <div class="term-grid">`;
 
     for (const t of terms) {
-      // Crear un ID único basado en el término
       const id = t.es.replace(/[^a-z0-9]/gi, "-").toLowerCase();
       const isOpen = openCards.has(id);
       
@@ -1471,52 +1424,25 @@ function renderGlosario() {
   `;
 }
 
-// Función para abrir un término específico (útil para búsquedas)
-function openTerm(id) {
-  if (!openCards.has(id)) {
-    openCards.add(id);
-    const card = document.getElementById("gcard-" + id);
-    const body = document.getElementById("gbody-" + id);
-    if (card && body) {
-      card.classList.add("open");
-      const inner = body.querySelector('.term-body-inner');
-      if (inner) {
-        body.style.maxHeight = (inner.scrollHeight + 20) + 'px';
-      } else {
-        body.style.maxHeight = '500px';
-      }
-    }
-  }
-}
-
-
-// ─── FUNCIONES DEL GLOSARIO ──────────────────────────────────────────────
 function toggleTerm(id) {
-  // Alternar el estado en el Set
   if (openCards.has(id)) {
     openCards.delete(id);
   } else {
     openCards.add(id);
   }
   
-  // Actualizar la UI
   const card = document.getElementById("gcard-" + id);
   const body = document.getElementById("gbody-" + id);
   
   if (card && body) {
-    // Alternar la clase 'open'
     card.classList.toggle("open", openCards.has(id));
     
-    // Ajustar la altura máxima para la animación
     if (openCards.has(id)) {
-      // Necesitamos calcular la altura real del contenido
       const inner = body.querySelector('.term-body-inner');
       if (inner) {
-        // Forzar un reflow para obtener la altura correcta
         body.style.maxHeight = '0px';
-        // Pequeño retraso para que el navegador procese el cambio
         requestAnimationFrame(() => {
-          const height = inner.scrollHeight + 20; // +20 por padding
+          const height = inner.scrollHeight + 20;
           body.style.maxHeight = height + 'px';
         });
       } else {
@@ -1528,7 +1454,44 @@ function toggleTerm(id) {
   }
 }
 
-// ─── REPASO RÁPIDO MEJORADO ──────────────────────────────────────────────
+function toggleAllTerms() {
+  const allIds = [];
+  for (const cat of DATA) {
+    for (const t of cat.terms) {
+      const id = t.es.replace(/[^a-z0-9]/gi, "-").toLowerCase();
+      allIds.push(id);
+    }
+  }
+  
+  const anyOpen = allIds.some(id => openCards.has(id));
+  
+  if (anyOpen) {
+    allIds.forEach(id => {
+      openCards.delete(id);
+      const card = document.getElementById("gcard-" + id);
+      const body = document.getElementById("gbody-" + id);
+      if (card) card.classList.remove("open");
+      if (body) body.style.maxHeight = '0px';
+    });
+  } else {
+    allIds.forEach(id => {
+      openCards.add(id);
+      const card = document.getElementById("gcard-" + id);
+      const body = document.getElementById("gbody-" + id);
+      if (card) card.classList.add("open");
+      if (body) {
+        const inner = body.querySelector('.term-body-inner');
+        if (inner) {
+          body.style.maxHeight = (inner.scrollHeight + 20) + 'px';
+        } else {
+          body.style.maxHeight = '500px';
+        }
+      }
+    });
+  }
+}
+
+// ─── REPASO RÁPIDO ──────────────────────────────────────────────────────
 function renderRepaso() {
   const badgeMap = {
     'definicion': 'badge-definicion',
@@ -1571,8 +1534,19 @@ function getFilteredPreg() {
   return pool;
 }
 
-function setCatPreg(c) { catFilter = c; buildPreguntasFilters(); applyPreguntasFilters(); }
-function setDiffPreg(d) { diffFilter = d; buildPreguntasFilters(); applyPreguntasFilters(); }
+function setCatPreg(c) { 
+  if (Object.keys(results).length > 0) return; 
+  catFilter = c; 
+  buildPreguntasFilters(); 
+  applyPreguntasFilters(); 
+}
+
+function setDiffPreg(d) { 
+  if (Object.keys(results).length > 0) return; 
+  diffFilter = d; 
+  buildPreguntasFilters(); 
+  applyPreguntasFilters(); 
+}
 
 function applyPreguntasFilters() {
   modeVal = document.getElementById("modeSelect")?.value || "random";
@@ -1604,10 +1578,13 @@ function updateStatsPreg() {
 function nextPregunta() {
   answered = false;
   workingPool = getFilteredPreg();
-  const unseen = workingPool.filter(q => !sessionSeen.has(q.id));
+  const unseen = workingPool.filter(q =>
+    !sessionSeen.has(q.id) && (modeVal === "wrong" || results[q.id] === undefined)
+  );
 
   if (!unseen.length) {
-    showResultadoFinal(); return;
+    showResultadoFinal(); 
+    return;
   }
 
   let pick;
@@ -1643,7 +1620,15 @@ function renderPregunta() {
   if (prevAnswered) {
     const verdict = prevResult ? "Correcto" : "Incorrecto";
     const vcls = prevResult ? "ok" : "fail";
-    expHTML = `<div class="explanation"><div class="verdict ${vcls}">${verdict}</div>${q.exp}</div>`;
+    let expContent;
+    if (prevResult) {
+      expContent = q.exp;
+    } else {
+      expContent = `
+        <p><b>Respuesta correcta:</b> ${q.exp}</p>
+        <p style="margin-top:8px;color:var(--muted);font-size:12px;">💡 Revisa por qué esta es la opción correcta según ISTQB.</p>`;
+    }
+    expHTML = `<div class="explanation"><div class="verdict ${vcls}">${verdict}</div>${expContent}</div>`;
   }
 
   document.getElementById("mainContent").innerHTML = `
@@ -1669,7 +1654,7 @@ function renderPregunta() {
       ${expHTML}
     </div>
     <div class="actions">
-      <button class="btn primary" onclick="nextPregunta()">Siguiente →</button>
+      <button class="btn primary" id="btnSiguiente" onclick="nextPregunta()" ${prevAnswered ? "" : "disabled"}>Siguiente →</button>
       <button class="btn" onclick="resetPreguntas()">Reiniciar sesión</button>
       <button class="btn" onclick="resetAllPreg()">Reiniciar todo</button>
     </div>
@@ -1688,13 +1673,25 @@ function pickPregunta(i) {
   document.getElementById("qopt"+i).classList.add(isCorrect ? "correct" : "wrong");
   if (!isCorrect) document.getElementById("qopt"+q.ans).classList.add("revealed");
 
+  document.getElementById("btnSiguiente").disabled = false;
+
   const verdict = isCorrect ? "Correcto" : "Incorrecto";
   const vcls = isCorrect ? "ok" : "fail";
   const existing = document.querySelector(".explanation");
-  if (!existing) {
+  let expContent;
+  if (isCorrect) {
+    expContent = q.exp;
+  } else {
+    expContent = `
+      <p><b>Por qué no es correcta:</b> la opción elegida ("${q.opts[i]}") no corresponde al concepto que evalúa la pregunta.</p>
+      <p style="margin-top:8px"><b>Respuesta correcta:</b> ${q.exp}</p>`;
+  }
+  if (existing) {
+    existing.innerHTML = `<div class="verdict ${vcls}">${verdict}</div>${expContent}`;
+  } else {
     const exp = document.createElement("div");
     exp.className = "explanation";
-    exp.innerHTML = `<div class="verdict ${vcls}">${verdict}</div>${q.exp}`;
+    exp.innerHTML = `<div class="verdict ${vcls}">${verdict}</div>${expContent}`;
     document.querySelector(".q-card").appendChild(exp);
   }
   updateStatsPreg();
@@ -1756,6 +1753,7 @@ function resetAllPreg() {
   sessionSeen = new Set();
   answered = false;
   currentQ = null;
+  renderControls();
   applyPreguntasFilters();
 }
 
